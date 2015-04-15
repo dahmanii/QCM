@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+
+<class name="dao.Entites.Qcm" table="QCM">
+
+	<id name="id" column="ID">
+		<generator class="native"></generator>
+	</id>
+	
+	<property name="categorie" column="CATEGORIE"></property>
+	<property name="libelle" column="LIBELLE"></property>
+	<property name="dateCreation" column="DATE_CREATION"></property>
+
+	<property name="idEmp" column="ID_EMP"></property>
+	<property name="etat" column="ETAT"></property>
+	<property name="messageResponsable" column="MESSAGE_RESPONSABLE"></property>
+	
+	<set name="questionnaires" table="QCM_QUESTIONNAIRES" >
+		<key column="ID"></key>
+		<many-to-many class="dao.Entites.Questionnaire" column="ID_QUESTIONNAIRE"></many-to-many>
+	</set>
+
+</class>
+
+</hibernate-mapping>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+
+<class name="dao.Entites.Questionnaire" table="QUESTIONNAIRES">
+
+	<id name="id" column="ID">
+		<generator class="native"></generator>
+	</id>
+	
+	<property name="question" column="QUESTION"></property>
+	<property name="choix1" column="CHOIX1"></property>
+	<property name="choix2" column="CHOIX2"></property>
+	<property name="choix3" column="CHOIX3"></property>
+	<property name="choix4" column="CHOIX4"></property>
+	
+	<set name="bonneReps" table="BONNES_REPONSES" >
+		<key column="ID"></key>
+		<many-to-many class="dao.Entites.BonneRep" column="BONNE_REP"></many-to-many>
+	</set>
+	
+</class>
+
+</hibernate-mapping>

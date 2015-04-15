@@ -1,0 +1,170 @@
+body, p, legend, label, input {
+    font: normal 8pt verdana, helvetica, sans-serif;
+}
+body{
+	background-color:#E6E6E6;
+}
+form{
+	width: 100%;
+	height: 100%;
+	display: inline-block;
+}
+button{
+	cursor: pointer;
+	color:white;
+	border: 1px solid transparent;
+}
+#container{
+	width: 800px;
+	margin:auto;
+	background: url('../images/back1.jpg') top center no-repeat fixed;
+	background-size: 100% 100%;
+	padding: 40px 40px 0 40px;
+}
+
+#entete{
+	width: 100%;
+	height: 60px;
+}
+#logo{
+	width:150px;
+	height:100%;
+	background: url('../images/logo2.png') ;
+	background-size: 100% 100%;
+	float:left;
+	margin-right:10px;
+}
+#espace{
+	width:150px;
+	height:100%;
+	background-color: #000 ;
+	float:left;
+	margin-right:10px;
+}
+#bonjour{
+	width:150px;
+	height:100%;
+	background-color: #515151 ;
+	float:left;
+	margin-right:10px;
+}
+.quitter{
+	width:150px;
+	height:100%;
+	background-color: #8b8b8b ;
+	float:left;
+}
+#espace > h2, #bonjour > h2{
+	color: white;	
+	width: 180px;
+	height: 100%;
+	padding: 8px 10px;
+    font-size: 12px;
+}
+.box{
+	background-color: white;
+	width:630px;
+	margin-bottom: 30px;
+	margin-top: 30px;
+}
+.titre{
+	height: 45px;
+	border-bottom: solid 1px black;
+}
+.titre-trapeze{
+	float: right;
+  border-bottom: 45px solid black;
+  border-left: 50px solid transparent;
+  border-right: 0px solid transparent;
+  height: 0;
+  width: 220px;
+}
+.titre-trapeze > h1{
+	color: white;	
+	width: 180px;
+	height: 100%;
+	padding: 8px 10px;
+  font-size: 12px;
+  text-transform: uppercase;
+  display: inline-block;	
+}
+.sous-box{
+	padding:10px;
+}
+label{
+	width: 25%;
+	float:left;
+	font-weight: bold;
+}
+.champs-saisi{
+	width:60%;
+	display: block;
+    height: 30px;
+    padding: 4px 6px;
+    font-size: 12px;
+    line-height: 1.67;
+    color: #555;
+    vertical-align: middle;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.btn-valider{
+  padding: 6px 12px;
+  font-weight: bold;
+  line-height: 15px;
+  margin-bottom: 1px;
+  background-color: #6F5E51;
+  border-color: #6F5E51;
+  border-radius: 4px;
+}
+.forms-liste-qcm {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+.forms-liste-qcm > li{
+  list-style: none;
+  float: left;
+  margin:15px 15px 15px 0
+}
+/*---------------- textarea ---------------*/
+textarea {	
+	display: block;
+    height: 50px;
+    padding: 4px 6px;
+    font-size: 12px;
+    line-height: 1.67;
+    color: #555;
+    vertical-align: middle;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.textareaq, .textareac{
+	width:100%;
+}
+.textareac{
+}
+.line-separatrice{
+	background: #d0d0d0;
+	height: 2px;
+	background: linear-gradient(to right,#fff 0%,#d0d0d0 50%,#fff 100%);
+}
+.choix{
+	width: 100%;
+	display: inline-block;
+}
+.col-droite, .col-gauche{
+	width: 50%;
+	float: left;
+}
+.col-gauche > p {
+	width: 90%;
+}
+.col-droite > .css-checkbox {
+	display: block;
+  margin-left: -61px;
+  width: 100%;
+  margin-top: 60px;
+}
