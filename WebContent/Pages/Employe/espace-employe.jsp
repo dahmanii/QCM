@@ -40,11 +40,17 @@
 				<div class="sous-box" >	
 					
 					<form action="nouveauQcm.aspx" method="post" >				
-					
-						<input type="hidden" name="idEmp"    value = " ${user.id} " />		
-						<input type="hidden" name="espace"   value = " ${espace} " />
-						<input type="hidden" name="bonjour"  value = " ${bonjour} " />
+						<input type="hidden" name="etat"    value = "en cours" />
+						<input type="hidden" name="idEmp"    value = "${user.id}" />						
+						<!-- 
 						<input type="hidden" name="idQcm"    value = " ${qcm.id} " />
+						<input type="hidden" name="id"    value = "0" />
+						<input type="hidden" name="dateCreation"    value = "0" />
+						<input type="hidden" name="messageResponsable"    value = "0" />
+						<input type="hidden" name="questionnaires"    value = "0" />
+						<input type="hidden" name="choices"    value = "5" /> 
+						-->
+						
 						<div style = "display:${displayAjouterlibelleQcm};">
 							<p style="font-weight: bold;">Ajouter un nouveau QCM :</p>
 							<label for="categorie">Categorie</label>
@@ -55,7 +61,7 @@
 					            <option value="Culture générale">Culture générale</option>
 							</select>	
 							<br />
-							<label for="etat">Libellé</label>
+							<label for="libelle">Libellé</label>
 							<input type="text" name="libelle" />
 							<br />
 							<br />
@@ -71,7 +77,6 @@
 						
 						<p style="width: 60%;">
 	            			<span style="font-style: italic;">Tapez la question ${compteurQuestionnaires} du QCM:</span>
-							<!-- <label for="question">Tapez la question du QCM:</label> -->
 					      	<textarea class="textareaq" name="question" id="question" >${questionnaire.question}</textarea>
 				      	</p>
 						<div class="line-separatrice"></div>
@@ -80,29 +85,29 @@
 								<p style="font-weight: bold;">Saisir les choix :</p>
 								<p >
 									<span style="font-style: italic;">Choix A:</span>
-					       			<textarea class="textareac" name="choix1" id="choix1">${questionnaire.choix1}</textarea>
+					       			<textarea class="textareac" name="choix" id="choix1"></textarea>
 				       			</p>
 								<p >
 									<span style="font-style: italic;">Choix B:</span>
-					       			<textarea class="textareac" name="choix2" id="choix2" >${questionnaire.choix2}</textarea>
+					       			<textarea class="textareac" name="choix" id="choix2" ></textarea>
 				       			</p>
 								
 								<p >
 									<span style="font-style: italic;">Choix C:</span>
-					       			<textarea class="textareac" name="choix3" id="choix3" >${questionnaire.choix3}</textarea>
+					       			<textarea class="textareac" name="choix" id="choix3" ></textarea>
 				       			</p>
 								
 								<p >
 									<span style="font-style: italic;">Choix D:</span>
-					       			<textarea class="textareac" name="choix4" id="choix4" >${questionnaire.choix4}</textarea>
+					       			<textarea class="textareac" name="choix" id="choix4" ></textarea>
 				       			</p>
 			       			</div>	
 			       			<div class="col-droite">
 								<p style="font-weight: bold;">Cochez les bonnes réponses</p>
-								<input type="checkbox" name="bnrs" id="cbG05" value = "A" class="css-checkbox" >
-								<input type="checkbox" name="bnrs" id="cbG05" value = "B" class="css-checkbox" >
-								<input type="checkbox" name="bnrs" id="cbG05" value = "C" class="css-checkbox" >
-								<input type="checkbox" name="bnrs" id="cbG05" value = "D" class="css-checkbox" >
+								<input type="checkbox" name="bnrs" id="cbG05" value = "0" class="css-checkbox" >
+								<input type="checkbox" name="bnrs" id="cbG05" value = "1" class="css-checkbox" >
+								<input type="checkbox" name="bnrs" id="cbG05" value = "2" class="css-checkbox" >
+								<input type="checkbox" name="bnrs" id="cbG05" value = "3" class="css-checkbox" >
 			       			</div>	
 		       			</div>
 		       						   
@@ -111,7 +116,6 @@
 						<input type="reset" class="btn-valider" name="raz" value="Remettre à zéro" style="border:0px; color:white;"/>					
 						<button type="submit" class="btn-valider" name="newQcm" value="questionnaire_suivant">Questionnaire suivant</button>	
 						<button type="submit" class="btn-valider" name="newQcm" value="valider_qcm">Valider Qcm</button>	
-						<!-- <input action="modifierQcm.aspx" type="submit" value="Modifier" ${disabled} > -->
 
 					</form>
 				</div>
@@ -129,9 +133,7 @@
 					
 						<input type="hidden" name="id" value = " ${qcm.id} " />	
 						<input type="hidden" name="dateCreation" value = " ${qcm.dateCreation} " />	
-						<input type="hidden" name="idEmp" value = " ${user.id} " />		
-						<input type="hidden" name="espace" value = " ${espace} " />
-						<input type="hidden" name="bonjour" value = " ${bonjour} " />
+
 						
 						<p style="font-weight: bold;">Modifier QCM :</p>
 						<p style="width: 60%;">
@@ -145,21 +147,21 @@
 								<p style="font-weight: bold;">Modifier les choix :</p>
 								<p >
 									<span style="font-style: italic;">Choix A:</span>
-					       			<textarea class="textareac" name="choix1" id="choix1">${questionnaire.choix1}</textarea>
+					       			<textarea class="textareac" name="choix1" id="choix1">${questionnaire.question}</textarea>
 				       			</p>
 								<p >
 									<span style="font-style: italic;">Choix B:</span>
-					       			<textarea class="textareac" name="choix2" id="choix2" >${questionnaire.choix2}</textarea>
+					       			<textarea class="textareac" name="choix2" id="choix2" >${questionnaire.question}</textarea>
 				       			</p>
 								
 								<p >
 									<span style="font-style: italic;">Choix C:</span>
-					       			<textarea class="textareac" name="choix3" id="choix3" >${questionnaire.choix3}</textarea>
+					       			<textarea class="textareac" name="choix3" id="choix3" >${questionnaire.question}</textarea>
 				       			</p>
 								
 								<p >
 									<span style="font-style: italic;">Choix D:</span>
-					       			<textarea class="textareac" name="choix4" id="choix4" >${questionnaire.choix4}</textarea>
+					       			<textarea class="textareac" name="choix4" id="choix4" >${questionnaire.question}</textarea>
 				       			</p>
 			       			</div>	
 			       			<div class="col-droite">
@@ -197,8 +199,15 @@
 				<div class="sous-box">	
 					<!-- Liste qcm -->		
 					<sss:forEach items="${listeQcms}" var = "o">	
-						<label for="idQcm">IdQcm </label>
-						<label for="idQcm">${ o.id } </label>
+					<fieldset>
+					    <legend>
+					    	<label for="idQcm">IdQcm </label>
+							<label for="idQcm" style = " float:right;">${ o.id } </label>
+					    </legend>	
+						<form action="supprimerQCM.aspx" method="post" style = "clear: both;">
+	                  		<input type="hidden" name="idQcm" value = "${o.id}" />
+	                  		<button type="submit" class="btn-valider" name="supprimer" >Supprimer ce QCM</button> 
+	                  	</form>
 		                <br />
 		                <label for="idQcm">Catégorie </label>
 						<label for="idQcm">${ o.categorie } </label>
@@ -220,62 +229,38 @@
 			                <label for="idQcm">Question : </label>
 							<label for="idQcm">${oo.question} </label>
 			                <br />
-			                <label for="idQcm">A)   </label>
-			                <label for="idQcm">${ oo.choix2 } </label>
-							<br />
-			                <label for="idQcm">B)  </label>
-							<label for="idQcm">${ oo.choix2 } </label>
-		                  	<br />
-		                  	<label for="idQcm">C)  </label>
-							<label for="idQcm">${ oo.choix3 } </label>
-		                  	<br />
-		                  	<label for="idQcm">D) </label>
-							<label for="idQcm">${ oo.choix4 } </label>
-		                  	<br />
-		                  	<label for="idQcm">Bonnes réponses:   </label>
-							<label for="idQcm">
-								<sss:forEach items="${oo.bonneReps}" var = "ooo">
-									${ooo.bnr}
-								</sss:forEach>
-							</label>
-		                  	<br />
+			                <sss:forEach items="${oo.choices}" var = "ooo">
+				                <label for="idQcm">${ooo.label}   </label>
+				                <label for="idQcm">${ooo.choix} </label>
+				                 <label for="idQcm">${ooo.br} </label>
+								<br />
+							</sss:forEach>
 		                  	<ul class="forms-liste-qcm">
 		                  	<li>
-		                  	<form action="supprimerQCM.aspx" method="post">
-		                  		<input type="hidden" name="idEmp" value = "${user.id}" />
-		                  		<input type="hidden" name="id" value = "${o.id}" />
-		                  		<button type="submit" class="btn-valider" name="supprimer" >Supprimer</button> 
+		                  	<form action="supprimerQUESTIONNAIRE.aspx" method="post">
+		                  		<input type="hidden" name="idQuestionnaire" value = "${oo.id}" />
+		                  		<input type="hidden" name="idQcm" value = "${o.id}" />
+		                  		<button type="submit" class="btn-valider" name="supprimer" >Supprimer ce questionnaire</button> 
 		                  	</form>
 		                  	</li>
 		                  	<li>
 		                  	<!-- <form action="modification.aspx" method="post"> -->
 		                  	<form action="supprimerQCM.aspx" method="post">
-		                  		<input type="hidden" name="espace" value = " ${espace} " />
-								<input type="hidden" name="bonjour" value = " ${bonjour} " />
 								
-		                  		<input type="hidden" name="id" value = "${o.id}" />
-		                  		<input type="hidden" name="dateCreation" value = "${o.dateCreation}" />
-		                  		<input type="hidden" name="question" value = "${questionnaires.question}" />
-		                  		<input type="hidden" name="choix1" value = "${questionnaires.choix1}" />
-		                  		<input type="hidden" name="choix2" value = "${questionnaires.choix2}" />
-		                  		<input type="hidden" name="choix3" value = "${questionnaires.choix3}" />
-		                  		<input type="hidden" name="choix4" value = "${questionnaires.choix4}" />
-		                  		<input type="hidden" name="idEmp" value = "${user.id}" />
-		                  		<input type="hidden" name="bonneRep" value = "X" />
-		                  		<input type="hidden" name="etat" value = "${o.etat}" />
+		                  		<input type="hidden" name="idQcm" value = "${o.id}" />
 		                  		<button type="submit" class="btn-valider" name="modifier" value="modifier">Modifier</button> 
 		                  	</form>
 		                  	</li>
 		                  	</ul>
-		                  	</br>
+		                  	<br/>
 	                  	</sss:forEach>
 						<br />
 						<div class="line-separatrice"></div>
 						<br />
+					 </fieldset>		
 					</sss:forEach>
 			</div>
-			<hr/>
-		</div>
-		</div>
+		</div> <!-- fin box -->
+		</div><!-- fin container -->
 	</body>
 </html>

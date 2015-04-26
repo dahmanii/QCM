@@ -20,11 +20,13 @@ button{
 	background: url('../images/back1.jpg') top center no-repeat fixed;
 	background-size: 100% 100%;
 	padding: 40px 40px 0 40px;
+	min-height: 667px;
 }
 
 #entete{
 	width: 100%;
 	height: 60px;
+	padding-bottom:10px;
 }
 #logo{
 	width:150px;
@@ -34,17 +36,13 @@ button{
 	float:left;
 	margin-right:10px;
 }
-#espace{
-	width:150px;
-	height:100%;
-	background-color: #000 ;
-	float:left;
-	margin-right:10px;
+
+.logo-margin-index{
+	margin-right:120px !important;
 }
-#bonjour{
+.sous-menu{
 	width:150px;
 	height:100%;
-	background-color: #515151 ;
 	float:left;
 	margin-right:10px;
 }
@@ -63,9 +61,18 @@ button{
 }
 .box{
 	background-color: white;
-	width:630px;
+	width:790px;
 	margin-bottom: 30px;
 	margin-top: 30px;
+}
+.box-index{
+	background-color: white;
+	width:380px;
+	margin-top: 30px;
+	float:left;
+}
+.margin-right30{
+	margin-right:30px;
 }
 .titre{
 	height: 45px;
@@ -88,11 +95,27 @@ button{
   text-transform: uppercase;
   display: inline-block;	
 }
+.sous-box-index1{
+	height:200px;
+	background: url('http://dummyimage.com/380x200/273042/ffffff&text=Message+Qcm+au+choix...') ;
+}
+.sous-box-index2{
+	height:200px;
+	background: url('http://dummyimage.com/380x200/1b2d52/ffffff&text=Message+Interfaces+Optimisé...') ;
+}
+.sous-box-index3{
+	height:200px;
+	background: url('http://dummyimage.com/380x200/0e0c38/ffffff&text=Message+Blabla+Blabla...') ;
+}
+.sous-box-index4{
+	height:200px;
+	background: url('http://dummyimage.com/380x200/101024/ffffff&text=Message+Blabla+Blabla...') ;
+}
 .sous-box{
 	padding:10px;
 }
 label{
-	width: 25%;
+	width: 100px;
 	float:left;
 	font-weight: bold;
 }
@@ -167,4 +190,33 @@ textarea {
   margin-left: -61px;
   width: 100%;
   margin-top: 60px;
+}
+.infos-qcm{
+  width: 36%;
+  float: left;
+}
+.infos-questionnaire{
+  width: 35%;
+  float: left;
+  margin-left:40px;
+}
+.modifier-qcm{
+  width: 50%;
+  float: left;
+  border-left: 1px black solid;
+  padding-left: 10px;
+}
+#infos-connexion{
+	height:30px;
+	margin-bottom:5px;
+}
+#infos-user{
+	width:78%; 
+	float: left;
+	margin-right:16px;
+}
+#infos-user > span{
+	margin-top: 9px;
+    float: right;
+    color:white;
 }

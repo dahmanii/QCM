@@ -5,7 +5,7 @@
 
 <hibernate-mapping>
 
-<class name="dao.Entites.Qcm" table="QCM">
+<class name="dao.Entites.Qcm" table="QCMS">
 
 	<id name="id" column="ID">
 		<generator class="native"></generator>
@@ -18,11 +18,13 @@
 	<property name="idEmp" column="ID_EMP"></property>
 	<property name="etat" column="ETAT"></property>
 	<property name="messageResponsable" column="MESSAGE_RESPONSABLE"></property>
+	<property name="internautes" column="INTERNAUTES"></property>
 	
-	<set name="questionnaires" table="QCM_QUESTIONNAIRES" >
-		<key column="ID"></key>
-		<many-to-many class="dao.Entites.Questionnaire" column="ID_QUESTIONNAIRE"></many-to-many>
-	</set>
+	<list name="questionnaires" table="QUESTIONNAIRES" >
+		<key column="QCM"></key>
+		<list-index base="0" column="IDX"></list-index>
+		<one-to-many class="dao.Entites.Questionnaire" />
+	</list>
 
 </class>
 

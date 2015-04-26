@@ -66,7 +66,7 @@ public class QcmImpl implements QcmDAO {
 		// TODO Auto-generated method stub
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();	
-		String requete = "from Employe where identifiant = '" + identifiant + "' and password = '" + password  +"'  and role = 'EmployÃ© d''entreprise'";
+		String requete = "from Employe where identifiant = '" + identifiant + "' and password = '" + password  +"'  and role = 'Employé d''entreprise'";
 		List<Employe> liste = session.createQuery(requete).list();
 		return liste;
 	}
@@ -104,5 +104,15 @@ public class QcmImpl implements QcmDAO {
 		
 		Qcm qcm = (Qcm) session.load(Qcm.class, id);
 		return qcm;
+	}
+	
+	@Override
+	public Questionnaire getQuestionnaire(Integer id) {
+		// TODO Auto-generated method stub
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();	
+		
+		Questionnaire q = (Questionnaire) session.load(Questionnaire.class, id);
+		return q;
 	}
 }

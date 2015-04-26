@@ -19,6 +19,8 @@ public interface QcmDAO {
 
 	public Qcm getQcm(Integer idQcm);
 
+	public Questionnaire getQuestionnaire(Integer id);
+
 	
 
 }

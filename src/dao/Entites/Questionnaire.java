@@ -1,30 +1,24 @@
 package dao.Entites;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
 
 public class Questionnaire {
 	private Integer id;
 	private String question;
-	private String choix1;
-	private String choix2;
-	private String choix3;
-	private String choix4;
-	private Set<BonneRep> bonneReps = new HashSet<BonneRep>();
+	private List<Choice> choices = new ArrayList<Choice>();
 	
 	public Questionnaire() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Questionnaire(String question, String choix1, String choix2, String choix3, String choix4) {
+	public Questionnaire(String question) {
 		super();
-		this.question = question;
-		this.choix1 = choix1;
-		this.choix2 = choix2;
-		this.choix3 = choix3;
-		this.choix4 = choix4;
-		
+		this.question = question;	
 	}
 	public Integer getId() {
 		return id;
@@ -39,59 +33,62 @@ public class Questionnaire {
 		this.question = question;
 	}
 	
-	public String getChoix1() {
-		return choix1;
+	public List<Choice> getChoices() {
+		return choices;
 	}
-	public void setChoix1(String choix1) {
-		this.choix1 = choix1;
+	public void setChoices(List<Choice> choices) {
+		this.choices = choices;
 	}
-	public String getChoix2() {
-		return choix2;
-	}
-	public void setChoix2(String choix2) {
-		this.choix2 = choix2;
-	}
-	public String getChoix3() {
-		return choix3;
-	}
-	public void setChoix3(String choix3) {
-		this.choix3 = choix3;
-	}
-	public String getChoix4() {
-		return choix4;
-	}
-	public void setChoix4(String choix4) {
-		this.choix4 = choix4;
-	}
-	public Set<BonneRep> getBonneReps() {
-		return bonneReps;
-	}
-	public void setBonneReps(Set<BonneRep> bonneReps) {
-		this.bonneReps = bonneReps;
-	}
-	
 	public void setQuestionnaire(Questionnaire questionnaire) {
 		this.question = questionnaire.getQuestion();
-		this.choix1 = questionnaire.getChoix1();
-		this.choix2 = questionnaire.getChoix2();
-		this.choix3 = questionnaire.getChoix3();
-		this.choix4 = questionnaire.getChoix4();
-		this.bonneReps = questionnaire.getBonneReps();
+		this.choices = questionnaire.getChoices();
+
+	}
+
+	public void ajouterChoice(Choice choice){
+		choices.add(choice);
+	}
+	public void viderChoice(){
+		setChoices(new ArrayList<Choice>());;
+	}
+	public void addChoices( String[] choix, Integer[] bnrs) {		
+		viderChoice();
+
+		Vector<Integer> listeBnrs = new Vector<Integer>();
+		for(Integer I:bnrs) listeBnrs.add(I);  
+
+		int ascii = 65; // code de la lettre A
+		for(int i =0; i< choix.length; i++) {
+			if(!choix[i].isEmpty()) {
+				if(listeBnrs.contains( new Integer(i) )) {
+					choices.add(new Choice(choix[i], Character.toString ((char) ascii++) , new Integer(1)));
+				}
+				else choices.add(new Choice(choix[i], Character.toString ((char) ascii++) , new Integer(0)));
+			}				
+		}		
 	}
 	
-	public void ajouterBonneRep(BonneRep bnr){
-		bonneReps.add(bnr);
-	}
-	
-	@Override
-	public String toString(){
-		String bnrs="";
-		for(BonneRep bnr:this.bonneReps) bnrs+=bnr.getBnr()+", ";
-		return "id : "+getId()+" - question : " + getQuestion() + " - choix1: " + getChoix1() + " - bonnes réponses: " + bnrs; 
+	public void addChoices( Vector<String> choix, Vector<Integer> bnrs) {
+		viderChoice();
+
+		int ascii = 65; 
+		for(int i=0; i< choix.size(); i++) {
+			if(!choix.get(i).isEmpty()) {
+				if(bnrs.contains( new Integer(i) )) {
+					choices.add(new Choice(choix.get(i), Character.toString ((char) ascii++) , new Integer(1)));
+				}
+				else choices.add(new Choice(choix.get(i), Character.toString ((char) ascii++) , new Integer(0)));
+			}				
+		}
 	}
 	
 	public void show(){
-		System.out.println(toString());
+		System.out.println("		id_QUESTIONNAIRE: "+this.id);
+		System.out.println("		question_QUESTIONNAIRE: "+this.question);
+		int i=1;
+		for(Choice choix: this.choices) {
+			System.out.println("		CHOIX "+i++);
+			choix.show();
+		}
 	}
-
 }

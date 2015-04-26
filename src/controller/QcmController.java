@@ -1,8 +1,11 @@
 package controller;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
@@ -14,6 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sun.org.apache.xpath.internal.axes.ReverseAxesWalker;
+
+import BeansVues.*;
 import dao.Entites.*;
 import services.QcmMetier;
 
@@ -22,15 +28,34 @@ public class QcmController {
 
 	@Autowired         
 	QcmMetier services;    // services est un interface: spring, grace √† @Autowired, lui associe une instanciation des l'objet qcmService d√©finit dans spring-beans.xml
+	Qcm qcm = new Qcm();
+	Utilisateur user = new Utilisateur();
+	String espace = "Espace Employe" ;
+	String bonjour = "Bonjour "+this.user.getNom() +" "+ this.user.getPrenom();;
 	int compteurQuestionnaires=0;
-	@RequestMapping(value="/sidentifier")
-	public String sidentifier(Model model){
-		return "sidentifier";
+	
+	/* ***************************************************************************************
+	 * ************************************* Partie Index ************************************
+	 *****************************************************************************************
+	 */
+	@RequestMapping(value="/vueSeConnecter")
+	public String vueSeConnecter(Model model){
+		return "Index/seConnecter";
+	}
+	
+	@RequestMapping(value="/vueNouveauUtilisateur")
+	public String vueNouveauUtilisateur(Model model){
+		return "Index/sInscrire";
+	}
+	
+	@RequestMapping(value="/index")
+	public String index(Model model){
+		return "Index/index";
 	}
 	
 	@RequestMapping(value="/seDeconnecter")
 	public String seDeconnecter(Model model){	
-		return "sidentifier";
+		return "Index/index";
 	}
 	
 	@RequestMapping(value="/authentification")
@@ -38,64 +63,46 @@ public class QcmController {
 							  @RequestParam(value="identifiant") String identifiant,
 							  @RequestParam(value="password") String password){
 		String message = "";
-		System.out.println("Avant chargement des 3 types users");
 		List<Employe> listeEmp = (List<Employe>) services.empDejaEnregistre(identifiant, password);
 		List<Responsable> listeResp = (List<Responsable>) services.respDejaEnregistre(identifiant, password);
 		List<Internaute> listeInternaute = (List<Internaute>) services.internauteDejaEnregistre(identifiant, password);
-		System.out.println("Apres chargement des 3 types users");
-		String espace;
-		String bonjour;
 		
 		if(!listeEmp.isEmpty()){
-			
-			Employe userEmp = listeEmp.get(0);
-			espace = "Espace Employ√©";
-			bonjour = "Bonjour "+userEmp.getNom() +" "+ userEmp.getPrenom();
-			
-			
-			model.addAttribute("espace", espace);
-			model.addAttribute("bonjour", bonjour);
-			model.addAttribute("compteurQuestionnaires", compteurQuestionnaires);
-			model.addAttribute("user", userEmp);
+			this.user = listeEmp.get(0);
+			this.espace = "Espace Employe";
+			this.bonjour = "Bonjour "+this.user.getNom() +" "+ this.user.getPrenom();
+
+			model.addAttribute("espace", this.espace);
+			model.addAttribute("bonjour", this.bonjour);
+			model.addAttribute("user", this.user);
 			model.addAttribute("qcm", new Qcm());
 			
-			List<Qcm> liste_Qcm = services.consulterQcm(userEmp.getId());
-			model.addAttribute("listeQcms", liste_Qcm);
-			if(liste_Qcm.isEmpty()) model.addAttribute("displayListeQCM","none");
-			else  model.addAttribute("displayListeQCM","bloc");			
-			model.addAttribute("displayAjouterQCM","bloc");
-			model.addAttribute("displayModifierQCM","none");			
-			model.addAttribute("displayAjouterlibelleQcm","bloc");
-			model.addAttribute("displaylibellelabelQcm","none");
-			return "espace-employe";
+			return "Employe/accueil";
 			
 		}else if(!listeResp.isEmpty()) {
-			Responsable userResp = listeResp.get(0);
-			espace = "Espace Responsable technique";
-			bonjour = "Bonjour "+userResp.getNom() +" "+ userResp.getPrenom();
-			model.addAttribute("espace", espace);
-			model.addAttribute("bonjour", bonjour);
-			model.addAttribute("user", userResp);
-			return "espace-responsable";
+			this.user = listeResp.get(0);
+			this.espace = "Espace Responsable technique";
+			this.bonjour = "Bonjour "+this.user.getNom() +" "+ this.user.getPrenom();
+			model.addAttribute("espace", this.espace);
+			model.addAttribute("bonjour", this.bonjour);
+			model.addAttribute("user", this.user);
+			return "Responsable/accueil";
 			
 		}else if(!listeInternaute.isEmpty()){
-			Internaute userInternaute = listeInternaute.get(0);
-			espace = "Espace Internaute";
-			bonjour = "Bonjour "+userInternaute.getNom() +" "+ userInternaute.getPrenom() ;
-			bonjour += ", votre date de naissance est:  " + userInternaute.getDateNaissance() ;
-			model.addAttribute("espace", espace);
-			model.addAttribute("bonjour", bonjour);
-			model.addAttribute("user", userInternaute);
-			//model.addAttribute("listeQcms", services.consulterQcm());
-			return "espace-internaute";
+			this.user = listeInternaute.get(0);
+			this.espace = "Espace Internaute";
+			this.bonjour = "Bonjour "+this.user.getNom() +" "+ this.user.getPrenom() ;
+			//bonjour += ", votre date de naissance est:  " + this.user.getDateNaissance() ;
+			model.addAttribute("espace", this.espace);
+			model.addAttribute("bonjour", this.bonjour);
+			model.addAttribute("user", this.user);
+			return "Internaute/accueil";
 			
 		}else {
-			message = "Identifiant ou mot de pass incorrect, r√©essayer!";
+			message = "Identifiant ou mot de pass incorrect, rÈessayer!";
 			
-			//compteur++;
-			//model.addAttribute("compteur", compteur);//test
 			model.addAttribute("message", message);
-			return "sidentifier";
+			return "Index/seConnecter";
 		}
 	}
 	
@@ -108,307 +115,469 @@ public class QcmController {
 							  @RequestParam(value="dateNaissance") String dateNaissance,
 							  @RequestParam(value="password") String password,
 							  @RequestParam(value="role") String role){
-		System.out.println("Debut nouveauUser");
 		if(role.equals("Employe")) {
-			System.out.println("Debut if employe");
 			Employe emp = new Employe(nom, prenom, identifiant, password);
-			System.out.println("Debut if employeobjet employe cree");
-			System.out.println("ajout utilisateur");
 			services.ajouterUtilisateur(emp);
-			System.out.println("utilisateur ajout√© ");
-			model.addAttribute("user", emp);
-			System.out.println("model ajout√© ");
-			
+			model.addAttribute("user", emp);			
 		}else if(role.equals("Internaute")){
 			Internaute inte = new Internaute(nom, prenom, identifiant, password);
 			inte.setDateNaissance(dateNaissance);
 			services.ajouterUtilisateur(inte);			
-			model.addAttribute("user", inte);
-			
+			model.addAttribute("user", inte);		
 		}else{
 			Responsable resp = new Responsable(nom, prenom, identifiant, password);
 			services.ajouterUtilisateur(resp);
 			model.addAttribute("user", resp);
 		}
 
-		return "sidentifier";
+		return "Index/seConnecter";
 	}
 	
-	@RequestMapping(value="/nouveauQcm")
-	public String nouveauQCM(Model model, @RequestParam(value="idQcm") Integer idQcm,
-									      @RequestParam(value="idEmp") Integer idEmp,
-										  @RequestParam(value="newQcm") String newQcm,
-										  @RequestParam(value="espace") String espace,
-										  @RequestParam(value="bonjour") String bonjour,
-										  @RequestParam(value="question") String question,
-										  @RequestParam(value="choix1") String choix1,
-										  @RequestParam(value="choix2") String choix2,
-										  @RequestParam(value="choix3") String choix3,
-										  @RequestParam(value="choix4") String choix4,
-										  @RequestParam(value="categorie") String categorie,
-										  @RequestParam(value="libelle") String libelle,
-										  @RequestParam(value="bnrs") String[] bnrs ){
-		System.out.println("---------------- Debut Test /nouveauQcm dans le controller -------------");
-		System.out.println("categorie: "+categorie);
-		System.out.println("idEmp: "+idEmp);
-		System.out.println("idQcm: "+idQcm);
+	/* *****************************************************************************************
+	 * ************************************* Action Employe ************************************
+	 *******************************************************************************************
+	 */
+	////////////////
+	// Les Vues
+	//
+	//
+	//////////////// vueEmployeAjouterQcm ///////////
+	@RequestMapping(value="/vueEmployeAjouterQcm")
+	public String nouveauUser(Model model){
 		
-		Employe user = services.getEmploye(idEmp);
-		Qcm qcm;
-		Questionnaire questionnaire;
-		Integer idQuestionnaire;
-		Integer idBnr;
+		model.addAttribute("user", this.user);		
+		model.addAttribute("bonjour", this.bonjour);
+		model.addAttribute("espace", this.espace);
+		return "Employe/vue-initialiser-qcm-formulaire";
+	}
+	
+	////////////////vueEmployeModifierQcms ///////////
+	@RequestMapping(value="/vueEmployeModifierQcms")
+	public String vueEmployeModifierQcms(Model model){
 		
-		if(compteurQuestionnaires == 0){
-			String dateCreation;
-		    DateTime dt = new DateTime();
-			 /* Conversion de la date en String selon le format d√©fini */
-	        DateTimeFormatter formatter = DateTimeFormat.forPattern( "dd/MM/yyyy HH:mm:ss" );
-	        dateCreation = dt.toString( formatter );
-	        qcm = new Qcm(categorie, libelle, dateCreation, idEmp);
-	        idQcm = services.ajouterQcm(qcm);
-	        System.out.println("conteur: "+compteurQuestionnaires+" idQcm: "+idQcm);
-		}else{
-			qcm = services.getQcm(idQcm);
-			idQcm = qcm.getId();
-		}
-	    
-        
-        questionnaire = new Questionnaire(question, choix1, choix2, choix3, choix4);
-        //questionnaire.show();  
-        idQuestionnaire = services.ajouterQuestionnaire(questionnaire);
-        
-        for(String s:bnrs){
-        	idBnr = services.ajouterBonneReponse(new BonneRep(s));
-        	services.ajouterBonneReponseAQuestionnaire(idBnr, idQuestionnaire);
-        }
-       
-        services.ajouterQuestionnaireAQcm(idQuestionnaire, idQcm);
-        
-		List<Qcm> liste_Qcm = services.consulterQcm(idEmp);
+		model.addAttribute("user", this.user);		
+		model.addAttribute("bonjour", this.bonjour);
+		model.addAttribute("espace", this.espace);
+		
+		List<Qcm> liste_Qcm = services.consulterQcm(this.user.getId());
 		model.addAttribute("listeQcms", liste_Qcm);
-		if(liste_Qcm.isEmpty()) model.addAttribute("displayListeQCM","none");
-		else  model.addAttribute("displayListeQCM","bloc");
+		model.addAttribute("listeQcms", liste_Qcm);
+		return "Employe/vue-modifier-qcm";
+	}
+	
+	//////////////// vueEmployeListeQcm ///////////
+	@RequestMapping(value="/vueEmployeListeQcm")
+	public String vueEmployeListeQcm(Model model){
 		
+		model.addAttribute("user", this.user);		
+		model.addAttribute("bonjour", this.bonjour);
+		model.addAttribute("espace", this.espace);
 		
+		List<Qcm> liste_Qcm = services.consulterQcm(this.user.getId());
 		
-		model.addAttribute("user", user);		
-		model.addAttribute("bonjour", bonjour);
-		model.addAttribute("espace", espace);
+		for(Qcm qcm: liste_Qcm) {
+			switch (qcm.getEtat()) {
+			case "en ligne":
+				qcm.setColor("#AFE6B1");  // etat = en ligne
+				break;
+			case "en cours":
+				qcm.setColor("#e6aa0e");  // etat = en cours
+				break;
+			case "refuse":
+				qcm.setColor("#f05a49");  // etat = refusÈ
+				break;
+			default:
+				break;
+			}
+		}
 		
-		model.addAttribute("displayAjouterQCM","bloc");
-		model.addAttribute("displayModifierQCM","none");
+		model.addAttribute("listeQcms", liste_Qcm);
+
+		return "Employe/vue-liste-mes-qcm";
+	}
+	
+	
+	////////////////vueEmployeQcmInternaute ///////////
+	@RequestMapping(value="/vueEmployeQcmInternaute")
+	public String vueEmployeQcmInternaute(Model model){
+	
+		model.addAttribute("user", this.user);		
+		model.addAttribute("bonjour", this.bonjour);
+		model.addAttribute("espace", this.espace);
+		
+		List<Qcm> liste_Qcm = services.mesQcmLus(this.user.getId());
+		model.addAttribute("listeQcms", liste_Qcm);
+	
+	return "Employe/vue-liste-mes-qcm-lus";
+	}
+	
+	//////////////// vueModifierQuestionnaire ///////////
+	@RequestMapping(value="/vueModifierQuestionnaire")
+	public String vueModifierQuestionnaire(Model model, @RequestParam(value="idQcm") Integer idQcm,
+												   		@RequestParam(value="idQuestionnaire") Integer idQuestionnaire){
+		
+		//qcm.show();
+		Qcm qcm = services.getQcm(idQcm);	
+		Questionnaire quest = services.getQuestionnaire(idQuestionnaire);
+		QuestionnaireVue questionnaire = new QuestionnaireVue(quest);
+		
+		model.addAttribute("qcm", qcm);
+		model.addAttribute("questionnaire", questionnaire);
+		model.addAttribute("espace", this.espace);	
+		model.addAttribute("bonjour", this.bonjour);	
+		model.addAttribute("user", this.user);	
+		
+		return "Employe/vue-modifier-questionnaire-formulaire";
+	}
+
+	//////////////// vueModifierQcm ///////////
+	@RequestMapping(value="/vueModifierQcm")
+	public String vueModifierQcm(Model model, @RequestParam(value="idQcm") Integer idQcm){
+		
+		model.addAttribute("user", this.user);		
+		model.addAttribute("bonjour", this.bonjour);
+		model.addAttribute("espace", this.espace);
+		
+		//List<Qcm> liste_Qcm = services.consulterQcm(this.user.getId());
+		Qcm q = services.getQcm(idQcm);
+		QcmVue qcm = new QcmVue(q);
+		model.addAttribute("qcm", qcm);
+		return "Employe/vue-modifier-qcm-formulaire";
+	}
+	///////////// Fin des vues
+	/////////////
+	//////////////// initialiserQcm ///////////
+	@RequestMapping(value="/initialiserQcm")
+	public String initialiserQcm(Model model, Qcm qcm, Questionnaire questionnaire, String[] choix, Integer[] bnrs,
+												   String newQcm){
+	
+		Integer idQcm;
+
+		String dateCreation;
+	    DateTime dt = new DateTime();
+		 /* Conversion de la date en String selon le format d√©fini */
+        DateTimeFormatter formatter = DateTimeFormat.forPattern( "dd/MM/yyyy HH:mm:ss" );
+        dateCreation = dt.toString( formatter );
+        qcm.setDateCreation(dateCreation);
+
+        idQcm = services.ajouterQcm(qcm);
+        qcm.setId(idQcm);
+        this.qcm = qcm;
+        questionnaire.addChoices(choix, bnrs);
+       
+        services.ajouterQuestionnaireAQcm(questionnaire, this.qcm.getId());
+        		
+		model.addAttribute("user", this.user);		
+		model.addAttribute("bonjour", this.bonjour);
+		model.addAttribute("espace", this.espace);
+
 			
 		if(newQcm.equals("questionnaire_suivant")){
 			compteurQuestionnaires++;
 			model.addAttribute("questionnaire", questionnaire);
-			model.addAttribute("qcm", qcm);
+			model.addAttribute("qcm", this.qcm);
 			model.addAttribute("compteurQuestionnaires", compteurQuestionnaires);
-			model.addAttribute("displayAjouterlibelleQcm","none");
-			model.addAttribute("displaylibellelabelQcm","bloc");
+			return "Employe/vue-remplir-qcm-formulaire";
 		}else{
 			compteurQuestionnaires=0;
+			this.qcm = null;
 			model.addAttribute("compteurQuestionnaires", compteurQuestionnaires);
-			model.addAttribute("displayAjouterlibelleQcm","bloc");
-			model.addAttribute("displaylibellelabelQcm","none");
+			return "Employe/vue-initialiser-qcm-formulaire"; 
 		}
 		
-		
-		System.out.println("---------------- Fin Test /nouveauQcm dans le controller -------------\n\n");
-		return "espace-employe";
 	}
 	
-	/*
-	 @RequestMapping(value="/nouveauQcm")
-	public String nouveauQCM(Model model, @RequestParam(value="idEmp") Integer idEmp,
-										  @RequestParam(value="espace") String espace,
-										  @RequestParam(value="bonjour") String bonjour,
-										  @RequestParam(value="question") String question,
-										  @RequestParam(value="choix1") String choix1,
-										  @RequestParam(value="choix2") String choix2,
-										  @RequestParam(value="choix3") String choix3,
-										  @RequestParam(value="choix4") String choix4,
-										  @RequestParam(value="etat") String etat,
-										  @RequestParam(value="bnrs") String[] bnrs ){
-
-		System.out.println("---------------- Debut Test /nouveauQcm dans le controller -------------");
+	//////////////// remplirQcm ///////////
+	@RequestMapping(value="/remplirQcm")
+	public String remplirQcm(Model model, Qcm qcm, Questionnaire questionnaire, String[] choix, Integer[] bnrs,
+												   String newQcm){
+        questionnaire.addChoices(choix, bnrs);
+       
+        services.ajouterQuestionnaireAQcm(questionnaire, this.qcm.getId());
+        		
+		model.addAttribute("user", this.user);		
+		model.addAttribute("bonjour", this.bonjour);
+		model.addAttribute("espace", this.espace);
 		
-		Employe user = services.getEmploye(idEmp);
-		
-	    String dateCreation;
-	    DateTime dt = new DateTime();
-		 /* Conversion de la date en String selon le format d√©fini 
-        DateTimeFormatter formatter = DateTimeFormat.forPattern( "dd/MM/yyyy HH:mm:ss" );
-        dateCreation = dt.toString( formatter );
-        
-        //Qcm qcm = new Qcm(dateCreation, question, idEmp, choix1, choix2, choix3, choix4, bnrs[0]);
-        Qcm qcm = new Qcm(libelle, dateCreation, idEmp);
-        qcm.setEtat(etat);
-		services.ajouterQcm(qcm);
-		
-		List<Qcm> liste_Qcm = services.consulterQcm(idEmp);
-		model.addAttribute("listeQcms", liste_Qcm);
-		if(liste_Qcm.isEmpty()) model.addAttribute("displayListeQCM","none");
-		else  model.addAttribute("displayListeQCM","bloc");
-		
-		model.addAttribute("qcm", qcm);
-		model.addAttribute("user", user);		
-		model.addAttribute("bonjour", bonjour);
-		model.addAttribute("espace", espace);
-		
-		model.addAttribute("displayAjouterQCM","bloc");
-		model.addAttribute("displayModifierQCM","none");
+			
+		if(newQcm.equals("questionnaire_suivant")){
+			compteurQuestionnaires++;
+			model.addAttribute("questionnaire", questionnaire);
+			model.addAttribute("qcm", this.qcm);
+			model.addAttribute("compteurQuestionnaires", compteurQuestionnaires);
+			return "Employe/vue-remplir-qcm-formulaire";
+		}else{
+			compteurQuestionnaires=0;
+			this.qcm = null;
+			model.addAttribute("compteurQuestionnaires", compteurQuestionnaires);
+			return "Employe/vue-initialiser-qcm-formulaire";
+		}
+	}	
 	
-		System.out.println("---------------- Fin Test /nouveauQcm dans le controller -------------\n\n");
-		return "espace-employe";
-	}
-	 
-	 */
-	
-	
+	//////////////// supprimerQCM ///////////	
 	@RequestMapping(value="/supprimerQCM")
-	public String supprimerQCM(Model model, @RequestParam(value="id") Integer id,
-											@RequestParam(value="idEmp") Integer idEmp){
-		System.out.println("\n\n");
-		System.out.println("---------------- Debut Test /supprimer dans le controller -------------");
-		System.out.println("idEmp : "+idEmp);
-		
-		Employe user = services.getEmploye(idEmp);
-		
-		user.show();
-		System.out.println("id QCMMMMMM: "+id);
-		
-		//services.supprimerQcm(id); 	
-		String espace = "Espace Employ√©";
-		String bonjour  = "Bonjour "+user.getNom() +" "+ user.getPrenom();
-		
-		List<Qcm> liste_Qcm = services.consulterQcm(idEmp);
-		model.addAttribute("listeQcms", liste_Qcm);
-		if(liste_Qcm.isEmpty()) model.addAttribute("displayListeQCM","none");
-		else  model.addAttribute("displayListeQCM","bloc");		
-		
-		model.addAttribute("user", user);
-		model.addAttribute("espace", espace);
-		model.addAttribute("bonjour", bonjour);
-		model.addAttribute("displayAjouterQCM","bloc");
-		model.addAttribute("displayModifierQCM","none");
-		model.addAttribute("displayAjouterlibelleQcm","bloc");
-		model.addAttribute("displaylibellelabelQcm","none");
-		System.out.println("---------------- Fin Test /supprimer dans le controller -------------");
-		//System.out.println("\n\n");
-		
-		return "espace-employe";
-	}
+	public String supprimerQCM(Model model, @RequestParam(value="idQcm") Integer id){
+
+		services.supprimerQcm(id); 	
 	
-	@RequestMapping(value="/modifierQcm")
-	public String modifierQCM(Model model, Qcm qcm , @RequestParam(value="espace") String espace ,
-													 @RequestParam(value="bonjour") String bonjour){
-		
-		qcm.show();
-		services.modifierQcm(qcm); 
-		
-		Employe user = services.getEmploye(qcm.getIdEmp());
-				
-		List<Qcm> liste_Qcm = services.consulterQcm(qcm.getIdEmp());
-		model.addAttribute("listeQcms", liste_Qcm);
-		if(liste_Qcm.isEmpty()) model.addAttribute("displayListeQCM","none");
-		else  model.addAttribute("displayListeQCM","bloc");
-		
-		model.addAttribute("espace", espace);	
-		model.addAttribute("bonjour", bonjour);	
-		model.addAttribute("user", user);	
-		model.addAttribute("displayAjouterQCM","bloc");
-		model.addAttribute("displayModifierQCM","none");
-		return "espace-employe";
-	}
-	
-	@RequestMapping(value="/modification")
-	public String modification(Model model, Qcm qcm, @RequestParam(value="espace") String espace ,
-			  										 @RequestParam(value="bonjour") String bonjour,
-			  										 @RequestParam(value="modifier") String modifier ){
-		qcm.show();
-		Employe user = services.getEmploye(qcm.getIdEmp());		
-		List<Qcm> liste_Qcm = services.consulterQcm(qcm.getIdEmp());
-		model.addAttribute("listeQcms", liste_Qcm);
-		if(liste_Qcm.isEmpty()) model.addAttribute("displayListeQCM","none");
-		else  model.addAttribute("displayListeQCM","bloc");		
-		model.addAttribute("user", user);
-		model.addAttribute("espace", espace);
-		model.addAttribute("bonjour", bonjour);
-		if(modifier.equals("modifier")){			
-			model.addAttribute("qcm", qcm);			
-			model.addAttribute("displayAjouterQCM","none");
-			model.addAttribute("displayModifierQCM","bloc");
-		}else if(modifier.equals("mettre en ligne")){
-			services.mettreQcmEnLigne(qcm.getId()); 		
-			model.addAttribute("displayAjouterQCM","bloc");
-			model.addAttribute("displayModifierQCM","none");
-		}
-		return "espace-employe";
-	}
-	// --------------------------------  Partie Internaute  ----------------------------------
-	@RequestMapping(value="/afficherQcmInternauteByCategorie")
-	public String afficherQcmInternauteByCategorie(Model model , @RequestParam(value="id") Integer idInter ,
-													  			 @RequestParam(value="categorie") String categorie ,
-													  			 @RequestParam(value="espace") String espace ,
-													  			 @RequestParam(value="bonjour") String bonjour){
-		String messageListeQcmInternaute;
-		Internaute user = services.getInternaute(idInter);
-		List<Qcm> liste_Qcm = services.consulterQcmByCategorie(categorie);
-		if (liste_Qcm.isEmpty()) messageListeQcmInternaute = "Les Qcm de la cat√©gorie "+categorie+" sont en cours de cr√©ation";
-		else messageListeQcmInternaute = "Liste des Qcm de la cat√©gorie "+categorie;
-		model.addAttribute("messageListeQcmInternaute", messageListeQcmInternaute);	
+		List<Qcm> liste_Qcm = services.consulterQcm(user.getId());
 		model.addAttribute("listeQcms", liste_Qcm);	
-		model.addAttribute("user", user);
-		model.addAttribute("espace", espace);
-		model.addAttribute("bonjour", bonjour);
-		return "espace-internaute";
-	}
+		
+		model.addAttribute("user", this.user);
+		model.addAttribute("espace", this.espace);
+		model.addAttribute("bonjour", this.bonjour);
+		
+		return "Employe/vue-modifier-qcm";
+	}    
 	
-	// --------------------------------  Partie Responsable  ----------------------------------
-	@RequestMapping(value="/afficherQcmResponsable")
-	public String afficherQcmResponsable(Model model , @RequestParam(value="id") Integer idRespons ,
-													   @RequestParam(value="espace") String espace ,
-													   @RequestParam(value="bonjour") String bonjour){
+	//////////////// supprimerQUESTIONNAIRE ///////////	
+	@RequestMapping(value="/supprimerQUESTIONNAIRE")                    
+	public String supprimerQUESTIONNAIRE(Model model, @RequestParam(value="idQuestionnaire") Integer idQuestionnaire,
+													  @RequestParam(value="idQcm") Integer idQcm){
+		services.supprimerQuestionnaire(idQcm, idQuestionnaire);
+		
+		List<Qcm> liste_Qcm = services.consulterQcm(user.getId());
+		model.addAttribute("listeQcms", liste_Qcm);
+	
+		
+		model.addAttribute("user", this.user);
+		model.addAttribute("espace", this.espace);
+		model.addAttribute("bonjour", this.bonjour);
+		
+		return "Employe/vue-modifier-qcm";
+	}
+
+	//////////////// modifierQcm ///////////	
+	@RequestMapping(value="/modifierQcm")
+	public String modifierQCM(Model model, Qcm qcm, 
+										   @RequestParam(value="idQuestionnaires") Integer[] idQuestionnaires,
+										   @RequestParam(value="question") String[] question,
+										   @RequestParam(value="choix") String[] choix,
+										   @RequestParam(value="bnrs") String[] bnrs
+										   ){
+		
+		services.modifierQcm(qcm, idQuestionnaires, question, choix, bnrs);
+
+		List<Qcm> liste_Qcm = services.consulterQcm(user.getId());
+		model.addAttribute("listeQcms", liste_Qcm);
+		model.addAttribute("espace", this.espace);	
+		model.addAttribute("bonjour", this.bonjour);	
+		model.addAttribute("user", this.user);	
+		
+		return "Employe/vue-modifier-qcm";
+	}
+
+	//////////////// modifierQuestionnaire ///////////	
+	@RequestMapping(value="/modifierQuestionnaire")
+	public String modifierQuestionnaire(Model model, Questionnaire questionnaire, String[] choix, Integer[] bnrs){
+		
+		//qcm.setId(idQcm);	
+		questionnaire.addChoices(choix, bnrs);
+		questionnaire.show();
+		services.modifierQuestionnaire(questionnaire); 
+		
+		List<Qcm> liste_Qcm = services.consulterQcm(user.getId());
+		model.addAttribute("listeQcms", liste_Qcm);
+			
+		model.addAttribute("espace", this.espace);	
+		model.addAttribute("bonjour", this.bonjour);	
+		model.addAttribute("user", this.user);	
+		
+		return "Employe/vue-modifier-qcm";
+	}
+
+	/* *****************************************************************************************
+	 * ********************************** Action Responsable ***********************************
+	 *******************************************************************************************
+	 */
+	////////////////
+	// Les Vues
+	//
+	//
+	//////////////// vueResponsableQcmsNonValides ///////////
+	@RequestMapping(value="/vueResponsableQcmsNonValides")
+	public String vueResponsableQcmsNonValides(Model model){
 		
 		String messageListeQcmResponsable;
-		Responsable user = services.getResponsable(idRespons);
 		
-		List<Qcm> liste_Qcm = services.consulterQcmEnCours();
-		
-		if (liste_Qcm.isEmpty()) messageListeQcmResponsable = "Tous les qcm ont √©t√© valid√©s";
-		else messageListeQcmResponsable = "Liste des Qcm √† valider";
+		List<Qcm> liste_Qcm = services.consulterQcmEnCours();	
+		if (liste_Qcm.isEmpty()) messageListeQcmResponsable = "Tous les qcm ont ÈtÈ validÈs";
+		else messageListeQcmResponsable = "Liste des Qcm ‡† valider";
 		model.addAttribute("messageListeQcmResponsable", messageListeQcmResponsable);	
 		model.addAttribute("listeQcms", liste_Qcm);	
-		model.addAttribute("user", user);
-		model.addAttribute("espace", espace);
-		model.addAttribute("bonjour", bonjour);
-		return "espace-responsable";
+		
+		model.addAttribute("user", this.user);		
+		model.addAttribute("bonjour", this.bonjour);
+		model.addAttribute("espace", this.espace);
+		return "Responsable/vue-qcm-non-valides-formulaire";
 	}
+	
+	////////////////vueResponsableListeQcms ///////////
+	@RequestMapping(value="/vueResponsableListeQcms")
+	public String vueResponsableListeQcms(Model model){
+				
+		List<Qcm> liste_Qcm = services.consulterQcm();		
+		model.addAttribute("listeQcms", liste_Qcm);	
+		
+		model.addAttribute("user", this.user);		
+		model.addAttribute("bonjour", this.bonjour);
+		model.addAttribute("espace", this.espace);
+		return "Responsable/vue-liste-qcm";
+	}
+	
+	////////////////vueResponsableQcmsInternautes ///////////
+	@RequestMapping(value="/vueResponsableQcmsInternautes")
+	public String vueResponsableQcmsInternautes(Model model){
+
+		List<Qcm> liste_Qcm = services.qcmLus();	
+		model.addAttribute("listeQcms", liste_Qcm);	
+		
+		model.addAttribute("user", this.user);		
+		model.addAttribute("bonjour", this.bonjour);
+		model.addAttribute("espace", this.espace);
+		return "Responsable/vue-qcm-internaute";
+	}
+	
+	////////////////vueResponsableStatistques ///////////
+	@RequestMapping(value="/vueResponsableStatistques")
+	public String vueResponsableStatistques(Model model){
+		//// a faire
+		model.addAttribute("user", this.user);		
+		model.addAttribute("bonjour", this.bonjour);
+		model.addAttribute("espace", this.espace);
+		return "Responsable/vue-statistiques";
+	}
+	///////////// Fin des vues
+
+	////////////////validationQCM ///////////
 	@RequestMapping(value="/validationQCM")
 	public String validationQCM(Model model , @RequestParam(value="idQcm") Integer idQcm ,
-											  @RequestParam(value="id") Integer idResp ,
 											  @RequestParam(value="responsableMessageValidationQcm") String responsableMessageValidationQcm ,
-											  @RequestParam(value="nouveauEtatQcm") String nouveauEtatQcm ,
-											  @RequestParam(value="espace") String espace ,
-											  @RequestParam(value="bonjour") String bonjour){
+											  @RequestParam(value="nouveauEtatQcm") String nouveauEtatQcm){
+				
+		services.validerQcm(idQcm, nouveauEtatQcm, responsableMessageValidationQcm);			
+		List<Qcm> liste_Qcm = services.consulterQcmEnCours();		
 		
 		String messageListeQcmResponsable;
-		
-		Responsable user = services.getResponsable(idResp);
-		services.validerQcm(idQcm, nouveauEtatQcm, responsableMessageValidationQcm);
-		
-		
-		List<Qcm> liste_Qcm = services.consulterQcmEnCours();
-		
-		
-		if (liste_Qcm.isEmpty()) messageListeQcmResponsable = "Tous les qcm ont √©t√© valid√©s";
-		else messageListeQcmResponsable = "Liste des Qcm √† valider";
+		if (liste_Qcm.isEmpty()) messageListeQcmResponsable = "Tous les qcm ont ÈtÈ validÈs";
+		else messageListeQcmResponsable = "Liste des Qcm ‡ valider";
 		model.addAttribute("messageListeQcmResponsable", messageListeQcmResponsable);	
 		model.addAttribute("listeQcms", liste_Qcm);	
-		model.addAttribute("user", user);
-		model.addAttribute("espace", espace);
-		model.addAttribute("bonjour", bonjour);
-		return "espace-responsable";
+		model.addAttribute("user", this.user);		
+		model.addAttribute("bonjour", this.bonjour);
+		model.addAttribute("espace", this.espace);
+		return "Responsable/vue-qcm-non-valides-formulaire";
+	}
+	/* *****************************************************************************************
+	 * *********************************** Action Internaute************************************
+	 *******************************************************************************************
+	 */
+	////////////////
+	// Les Vues
+	//
+	//
+	//////////////// vueInternauteCategoriesQcms ///////////
+	@RequestMapping(value="/vueInternauteCategoriesQcms")
+	public String vueInternauteCategoriesQcms(Model model){
+
+		model.addAttribute("user", this.user);		
+		model.addAttribute("bonjour", this.bonjour);
+		model.addAttribute("espace", this.espace);
+		return "Internaute/vue-categories";
+	}
+	
+	//////////////// vueInternauteMesPoints ///////////
+	@RequestMapping(value="/vueInternauteMesPoints")
+	public String vueInternauteMesPoints(Model model){
+		Internaute internaute = services.getInternaute(this.user.getId());
+		Integer points = internaute.getPoints();
+		
+		model.addAttribute("points", points);		
+		model.addAttribute("user", this.user);		
+		model.addAttribute("bonjour", this.bonjour);
+		model.addAttribute("espace", this.espace);
+		return "Internaute/vue-points-internaute";
+	}
+
+	//////////////// vueInternauteRecompenses ///////////
+	@RequestMapping(value="/vueInternauteRecompenses")
+	public String vueInternauteRecompenses(Model model){
+	
+		model.addAttribute("user", this.user);		
+		model.addAttribute("bonjour", this.bonjour);
+		model.addAttribute("espace", this.espace);
+		return "Internaute/vue-recompenses-internaute";
+	}
+
+	//////////////// vueInternauteClassement ///////////
+	@RequestMapping(value="/vueInternauteClassement")
+	public String vueInternauteClassement(Model model){
+		
+		List<Internaute> liste = services.consulterInternautes();
+		Collections.reverse(liste);	
+		
+		for(Internaute inter: liste) 
+			if(inter.getId() == this.user.getId()) inter.setNom("#AFE6B1"); // on stock la couleur vers ou rien dans la propriÈtÈ nom inutilisÈ dans la vue
+			else inter.setNom("");
+		
+		
+		model.addAttribute("liste_internautes", liste);		
+		model.addAttribute("user", this.user);		
+		model.addAttribute("bonjour", this.bonjour);
+		model.addAttribute("espace", this.espace);
+		return "Internaute/vue-classement-internaute";
+	}
+	
+	////////////////vueRepondreQcm ///////////
+	@RequestMapping(value="/vueRepondreQcm")
+	public String vueRepondreQcm(Model model, @RequestParam(value="idQcm") Integer idQcm){
+		
+		Qcm q = services.getQcm(idQcm);
+		QcmInternaute qcm = new QcmInternaute(q);
+		model.addAttribute("qcm", qcm);
+		model.addAttribute("user", this.user);		
+		model.addAttribute("bonjour", this.bonjour);
+		model.addAttribute("espace", this.espace);
+		return "Internaute/vue-repondre-qcm";
+	}
+	
+	////////////////listeQcmByCategorie ///////////
+	@RequestMapping(value="/listeQcmByCategorie")
+	public String listeQcmByCategorie(Model model , @RequestParam(value="categorie") String categorie){
+		
+		String messageListeQcmInternaute;
+
+		List<Qcm> liste_Qcm = services.consulterQcmByCategorie(categorie);
+		if (liste_Qcm.isEmpty()) messageListeQcmInternaute = "Les Qcm de la catÈgorie "+categorie+" sont en cours de crÈation";
+		else messageListeQcmInternaute = "Liste Qcm de la catÈgorie "+categorie;
+		model.addAttribute("messageListeQcmInternaute", messageListeQcmInternaute);	
+		model.addAttribute("listeQcms", liste_Qcm);	
+		
+		model.addAttribute("user", this.user);		
+		model.addAttribute("bonjour", this.bonjour);
+		model.addAttribute("espace", this.espace);
+		return "Internaute/vue-liste-qcm";
+	}
+	
+	//////////////// repondreQcm ///////////
+	@RequestMapping(value="/repondreQcm")
+	public String repondreQcm(Model model , @RequestParam(value="idQcm") Integer idQcm,
+											@RequestParam(value="bnrs") Map<String, String> bnrs){
+		
+		Qcm qcm = services.getQcm(idQcm);  /// il faut inscrÈmenter qcm.internaute
+
+		List<String> reponsesInternaute = new ArrayList<String>();
+		
+		for(Questionnaire quest: qcm.getQuestionnaires()) {
+			reponsesInternaute.add(bnrs.get(""+quest.getId()));
+		}
+
+		services.repondreQcm(qcm, this.user.getId(), reponsesInternaute);
+		
+		model.addAttribute("user", this.user);		
+		model.addAttribute("bonjour", this.bonjour);
+		model.addAttribute("espace", this.espace);
+		//return "Internaute/vue-reponses";
+		return listeQcmByCategorie(model, "Science");
 	}
 }

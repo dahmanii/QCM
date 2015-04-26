@@ -28,14 +28,16 @@
 		
 		<!-- Drop and re-create the database schema on trartup -->
 		<property name="hbm2ddl.auto">create</property>
-		
+
 		<mapping resource="dao/Hbm/Utilisateur.hbm.xml"/>
-		<mapping resource="dao/Hbm/Employe.hbm.xml"/>
+		
 		<mapping resource="dao/Hbm/Internaute.hbm.xml"/>
 		<mapping resource="dao/Hbm/Responsable.hbm.xml"/>
+		<mapping resource="dao/Hbm/Employe.hbm.xml"/>
+		
 		<mapping resource="dao/Hbm/Qcm.hbm.xml"/>
 		<mapping resource="dao/Hbm/Questionnaire.hbm.xml"/>
-		<mapping resource="dao/Hbm/BonneRep.hbm.xml"/>
+		<mapping resource="dao/Hbm/Choice.hbm.xml"/>
 		
 	</session-factory>
 </hibernate-configuration>
