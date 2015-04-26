@@ -25,4 +25,35 @@ public class InternauteImpl implements InternauteDAO {
 		return session.createQuery(requete).list();
 	}
 
+
+	@Override
+	public void repondreQcm(Qcm q, Integer idInternaute, Integer noteQcm) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();	
+		//qcm.show();
+		
+		Qcm qcm = (Qcm) session.load(Qcm.class, q.getId());	
+		qcm.setQcm(q);
+
+		session.save(qcm);
+		
+		Internaute inter = (Internaute) session.load(Internaute.class, idInternaute);	
+		inter.modifierPoints(noteQcm);
+
+		session.save(inter);
+		
+		session.getTransaction().commit();
+	}
+
+
+	@Override
+	public List<Internaute> consulterInternautes() {
+
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();	
+		String requete = "from Internaute where role = 'Internaute' order by points";
+		return session.createQuery(requete).list();
+
+	}
+
 }

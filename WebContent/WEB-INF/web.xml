@@ -31,7 +31,8 @@
 	
 	<!-- 5 eme  -->
 	<welcome-file-list>
-	  	<welcome-file>Pages/sidentifier.jsp</welcome-file>
+	  	<!-- <welcome-file>Pages/test.jsp</welcome-file> -->
+	  	<welcome-file>Pages/Index/index.jsp</welcome-file>
 	</welcome-file-list>
 	
 </web-app>

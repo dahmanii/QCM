@@ -9,27 +9,25 @@
 <body>
 	<div id="container">
 		<div id="entete">
-			<div id="logo">				
+			<div id="logo" class="logo-margin-index">				
 			</div>
-		</div>
-		<div class="box">
-			<div class="titre">	
-				<div class="titre-trapeze">	
-					<h1>Se connecter </h1>	
-				</div>			    		
+			<div class="sous-menu" >	
+				<!---------------- Accueil ----------------------->
+				<form action="index.aspx" method="post">
+		        	<button type="submit" style="width: 100%;height: 100%;background-color: #000 ;">Accueil</button>
+		        </form>	
 			</div>
-			<div class="sous-box">	
-				<span style="color:red">${ message }</span>
-				<p>Saisissez votre identifiant et votre mot de passe SONDIX pour vous connecter à votre espace.</p>
-				<form action="authentification.aspx" method="post">
-					<label for="identifiant">Login </label>
-					<input type="text" id="identifiant" class="champs-saisi" name="identifiant" value=""  />
-					 <br />
-					<label for="mdp">Mot de pass </label>
-					<input type="password" id="mdp" class="champs-saisi" name="password" value="" />
-					<br/>
-					<button type="submit" class="btn-valider" name="se connecter">se connecter</button>		
-				</form>	
+			<div class="sous-menu" >	
+				<!---------------- Se connecter ----------------------->
+				<form action="vueSeConnecter.aspx" method="post">
+		        	<button type="submit" style="width: 100%;height: 100%;background-color: #515151 ;">Se connecter</button>
+		        </form>	
+			</div>
+			<div class="sous-menu" >	
+				<!---------------- Nouveau utilisateur ----------------------->
+				<form action="vueNouveauUtilisateur.aspx" method="post">
+		        	<button type="submit" style="width: 100%;height: 100%;background-color: #8b8b8b ;">S'enregistrer</button>
+		        </form>	
 			</div>
 		</div>
 		<div class="box">
@@ -64,30 +62,11 @@
 							<label for="password">Mot de pass</label>
 							<input type="password" name="password" class="champs-saisi">
 						<br />
-								
-			 				<!--  		
-							<input id="rad1" name="role" type="radio" value="Employe" /> 
-							<label for="rad1">Employé d'entreprise</label> 
-							
-							<input id="rad2" name="role" type="radio" value="Internaute" /> 
-							<label for="rad2">Internaute</label> 
-												
-							<input id="rad3" name="role" type="radio" value="Responsable" /> 
-							<label for="rad3">Responsable technique</label>
-							-->	
 							<button type="submit" class="btn-valider"  name="valider">valider</button>		
 				</form>		
 			</div>
 		</div>
-		
-		
-		
-		
-	
-		<td>${ user.nom }</td><br/>
-		<td>${ user.prenom }</td><br/>
-		<td>${ user.identifiant }</td><br/>
-		<td>${ user.role }</td><br/>
+
 	</div>
 </body>
 </html>

@@ -45,4 +45,20 @@ public class ResponsableImpl implements ResponsableDAO {
 		session.getTransaction().commit();
 	}
 
+
+	@Override
+	public List<Qcm> consulterQcm() {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();	
+		String requete = "from Qcm";//"from Qcm where id > 25";
+		return session.createQuery(requete).list();
+	}
+	
+	@Override
+	public List<Qcm> qcmLus() {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		String requete = "from Qcm as qcm where qcm.internautes > 0 ";
+		return session.createQuery(requete).list();
+	}
 }

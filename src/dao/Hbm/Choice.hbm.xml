@@ -5,12 +5,14 @@
 
 <hibernate-mapping>
 
-<class name="dao.Entites.BonneRep" table="BONNEREPS">
+<class name="dao.Entites.Choice" table="CHOICES">
 
 	<id name="id" column="ID">
 		<generator class="native"></generator>
 	</id>	
-	<property name="bnr" column="BNR"></property>	
+	<property name="choix" column="CHOIX"></property>	
+	<property name="label" column="LABEL"></property>	
+	<property name="br" column="BR"></property>	
 	
 </class>
 

@@ -10,4 +10,8 @@ public interface ResponsableDAO {
 	public List<Qcm> consulterQcmEnCours();
 
 	public void validerQcm(Integer idQcm, String nouveauEtatQcm, String responsableMessageValidationQcm);
+
+	public List<Qcm> consulterQcm();
+
+	public List<Qcm> qcmLus();
 }

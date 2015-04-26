@@ -13,6 +13,11 @@ public class QcmMetierImplementation implements QcmMetier {
 	InternauteDAO internauteDao;
 	ResponsableDAO responsableDao;
 	
+	public QcmMetierImplementation() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public void ajouterUtilisateur(Utilisateur user) {
 		qcmDao.ajouterUtilisateur(user);
@@ -42,10 +47,19 @@ public class QcmMetierImplementation implements QcmMetier {
 	public void supprimerQcm(Integer id) {
 		employeDao.supprimerQcm(id);
 	}
+	
+	@Override
+	public void supprimerQuestionnaire(Integer idQcm, Integer idQuestionnaire) {
+		employeDao.supprimerQuestionnaire(idQcm, idQuestionnaire);
+	}
 
 	@Override
-	public void modifierQcm(Qcm q) {
-		employeDao.modifierQcm(q);
+	public void modifierQcm(Qcm qcm, Integer[] idQuestionnaires, String[] question, String[] choix, String[] bnrs) {
+		
+		qcm.set2Questionnaires(idQuestionnaires, question, choix, bnrs);
+		for(Questionnaire quest: qcm.getQuestionnaires()) modifierQuestionnaire(quest);
+		
+		employeDao.modifierQcm(qcm);
 	}
 
 	@Override
@@ -84,24 +98,15 @@ public class QcmMetierImplementation implements QcmMetier {
 	public List<Qcm> consulterQcmByCategorie(String categorie) {
 		return internauteDao.consulterQcmByCategorie(categorie);
 	}
-
+	/*
 	@Override
 	public Integer ajouterQuestionnaire(Questionnaire questionnaire){
 		return employeDao.ajouterQuestionnaire(questionnaire);
-	}
-	@Override
-	public Integer ajouterBonneReponse(BonneRep bonneRep) {
-		return employeDao.ajouterBonneReponse(bonneRep);
-	}
+	}*/
 
 	@Override
-	public void ajouterBonneReponseAQuestionnaire(Integer idBnr, Integer idQuestionnaire) {
-		employeDao.ajouterBonneReponseAQuestionnaire(idBnr, idQuestionnaire);
-	}
-
-	@Override
-	public void ajouterQuestionnaireAQcm(Integer idQuestionnaire, Integer idQcm) {
-		employeDao.ajouterQuestionnaireAQcm(idQuestionnaire, idQcm);
+	public void ajouterQuestionnaireAQcm(Questionnaire questionnaire, Integer idQcm) {
+		employeDao.ajouterQuestionnaireAQcm(questionnaire, idQcm);
 	}
 	
 	
@@ -133,6 +138,79 @@ public class QcmMetierImplementation implements QcmMetier {
 	@Override
 	public void validerQcm(Integer idQcm, String nouveauEtatQcm, String responsableMessageValidationQcm) {
 		responsableDao.validerQcm(idQcm, nouveauEtatQcm, responsableMessageValidationQcm);
+	}
+
+	@Override
+	public Integer ajouterChoice(Choice choice) {
+		
+		return employeDao.ajouterChoice(choice);
+	}
+
+	@Override
+	public void ajouterChoiceAQuestionnaire(Integer idChoice, Integer idQuestionnaire) {
+		employeDao.ajouterChoiceAQuestionnaire(idChoice, idQuestionnaire);
+		
+	}
+
+	@Override
+	public void supprimerChoicesByIdQcm(Integer IdQcm) {
+		employeDao.supprimerChoicesByIdQcm(IdQcm);
+		
+	}
+
+	@Override
+	public void supprimerQuestionnairesByIdQcm(Integer IdQcm) {
+		employeDao.supprimerQuestionnairesByIdQcm(IdQcm);
+		
+	}
+
+	@Override
+	public Questionnaire getQuestionnaire(Integer id) {
+		return qcmDao.getQuestionnaire(id);
+	}
+
+	@Override
+	public void modifierQuestionnaire(Questionnaire questionnaire) {
+		employeDao.modifierQuestionnaire(questionnaire);
+	}
+
+	@Override
+	public List<Qcm> consulterQcm() {	
+		return responsableDao.consulterQcm();
+	}
+
+	@Override
+	public void repondreQcm(Qcm qcm, Integer id, List<String> reponsesInternaute) {
+		Integer internaute = qcm.getInternautes() + 1;
+		qcm.setInternautes(internaute);
+		
+		Integer noteQcm = 0;
+		
+		for(Questionnaire quest: qcm.getQuestionnaires()){
+			for(Choice c: quest.getChoices()) {
+				if(reponsesInternaute.get(0).equals(c.getLabel())){
+					noteQcm+=c.getBr();
+					break;
+				}
+			}
+			reponsesInternaute.remove(0);
+		}		
+		internauteDao.repondreQcm(qcm, id ,noteQcm);		
+	}
+
+	@Override
+	public List<Internaute> consulterInternautes() {
+		return internauteDao.consulterInternautes();
+	}
+
+	@Override
+	public List<Qcm> mesQcmLus(Integer idEmp) {
+		return employeDao. mesQcmLus(idEmp);
+	}
+
+	@Override
+	public List<Qcm> qcmLus() {
+		return responsableDao. qcmLus();
 	}
 
 	

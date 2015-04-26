@@ -10,9 +10,11 @@
               http://www.springframework.org/schema/context
               http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-<bean class="dao.Implementations.EmployeImpl" id="emp"     init-method="init" ></bean>
+
+
 <bean class="dao.Implementations.QcmImpl"     id="qcm"     init-method="init" ></bean>
 <bean class="dao.Implementations.InternauteImpl"     id="inter"     init-method="init" ></bean>
+<bean class="dao.Implementations.EmployeImpl" id="emp"     init-method="init" ></bean>
 <bean class="dao.Implementations.ResponsableImpl"     id="resp"     init-method="init" ></bean>
 
 <bean class="services.QcmMetierImplementation" id="QcmServices">
@@ -20,7 +22,6 @@
 	<property name="qcmDao" ref="qcm"  ></property>
 	<property name="internauteDao" ref="inter"  ></property>
 	<property name="responsableDao" ref="resp"  ></property>
-</bean>
-
+ </bean>
 
  </beans>
