@@ -35,13 +35,10 @@ public class InternauteImpl implements InternauteDAO {
 		Qcm qcm = (Qcm) session.load(Qcm.class, q.getId());	
 		qcm.setQcm(q);
 
-		session.save(qcm);
-		
+		session.save(qcm);		
 		Internaute inter = (Internaute) session.load(Internaute.class, idInternaute);	
-		inter.modifierPoints(noteQcm);
-
+		inter.modifierPoint(noteQcm, qcm.getCategorie());
 		session.save(inter);
-		
 		session.getTransaction().commit();
 	}
 

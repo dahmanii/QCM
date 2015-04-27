@@ -17,7 +17,11 @@
 	<property name="password" column="PASSWORD"></property>
 	<property name="role" column="ROLE"></property>
 	<property name="dateNaissance" column="DATE_NAISSANCE"></property>
-	<property name="points" column="POINTS"></property>
+	
+	<property name="pointS" column="POINTS"></property>
+	<property name="pointI" column="POINTI"></property>
+	<property name="pointM" column="POINTM"></property>
+	<property name="pointC" column="POINTC"></property>
 </class>
 
 </hibernate-mapping>

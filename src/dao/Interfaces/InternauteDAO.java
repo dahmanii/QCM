@@ -12,4 +12,5 @@ public interface InternauteDAO {
 	public void repondreQcm(Qcm qcm, Integer idInternaute, Integer noteQcm);
 
 	public List<Internaute> consulterInternautes();
+	
 }
