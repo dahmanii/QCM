@@ -99,7 +99,7 @@ public class QcmController {
 			return "Internaute/accueil";
 			
 		}else {
-			message = "Identifiant ou mot de pass incorrect, réessayer!";
+			message = "Identifiant ou mot de pass incorrect, reessayer!";
 			
 			model.addAttribute("message", message);
 			return "Index/seConnecter";
@@ -184,7 +184,7 @@ public class QcmController {
 				qcm.setColor("#e6aa0e");  // etat = en cours
 				break;
 			case "refuse":
-				qcm.setColor("#f05a49");  // etat = refusé
+				qcm.setColor("#f05a49");  // etat = refusï¿½
 				break;
 			default:
 				break;
@@ -401,8 +401,8 @@ public class QcmController {
 		String messageListeQcmResponsable;
 		
 		List<Qcm> liste_Qcm = services.consulterQcmEnCours();	
-		if (liste_Qcm.isEmpty()) messageListeQcmResponsable = "Tous les qcm ont été validés";
-		else messageListeQcmResponsable = "Liste des Qcm à  valider";
+		if (liste_Qcm.isEmpty()) messageListeQcmResponsable = "Tous les qcm ont ï¿½tï¿½ validï¿½s";
+		else messageListeQcmResponsable = "Liste des Qcm ï¿½ valider";
 		model.addAttribute("messageListeQcmResponsable", messageListeQcmResponsable);	
 		model.addAttribute("listeQcms", liste_Qcm);	
 		
@@ -459,8 +459,8 @@ public class QcmController {
 		List<Qcm> liste_Qcm = services.consulterQcmEnCours();		
 		
 		String messageListeQcmResponsable;
-		if (liste_Qcm.isEmpty()) messageListeQcmResponsable = "Tous les qcm ont été validés";
-		else messageListeQcmResponsable = "Liste des Qcm à valider";
+		if (liste_Qcm.isEmpty()) messageListeQcmResponsable = "Tous les qcm ont Ã©tÃ© validÃ©s";
+		else messageListeQcmResponsable = "Liste des Qcm Ã  valider";
 		model.addAttribute("messageListeQcmResponsable", messageListeQcmResponsable);	
 		model.addAttribute("listeQcms", liste_Qcm);	
 		model.addAttribute("user", this.user);		
@@ -490,9 +490,12 @@ public class QcmController {
 	@RequestMapping(value="/vueInternauteMesPoints")
 	public String vueInternauteMesPoints(Model model){
 		Internaute internaute = services.getInternaute(this.user.getId());
-		Integer points = internaute.getPoints();
+		this.user = internaute;
+		internaute.show();
+		Integer total = internaute.total();
+		System.out.println("total: "+total);
 		
-		model.addAttribute("points", points);		
+		model.addAttribute("total", total);		
 		model.addAttribute("user", this.user);		
 		model.addAttribute("bonjour", this.bonjour);
 		model.addAttribute("espace", this.espace);
@@ -516,9 +519,11 @@ public class QcmController {
 		List<Internaute> liste = services.consulterInternautes();
 		Collections.reverse(liste);	
 		
-		for(Internaute inter: liste) 
-			if(inter.getId() == this.user.getId()) inter.setNom("#AFE6B1"); // on stock la couleur vers ou rien dans la propriété nom inutilisé dans la vue
+		for(Internaute inter: liste) {
+			if(inter.getId() == this.user.getId()) inter.setPrenom("#AFE6B1"); // on stock la couleur vers ou rien dans la propriÃ©tÃ© nom inutilisÃ© dans la vue
 			else inter.setNom("");
+			inter.setTotal(inter.total());
+		}
 		
 		
 		model.addAttribute("liste_internautes", liste);		
@@ -534,6 +539,7 @@ public class QcmController {
 		
 		Qcm q = services.getQcm(idQcm);
 		QcmInternaute qcm = new QcmInternaute(q);
+		
 		model.addAttribute("qcm", qcm);
 		model.addAttribute("user", this.user);		
 		model.addAttribute("bonjour", this.bonjour);
@@ -548,8 +554,8 @@ public class QcmController {
 		String messageListeQcmInternaute;
 
 		List<Qcm> liste_Qcm = services.consulterQcmByCategorie(categorie);
-		if (liste_Qcm.isEmpty()) messageListeQcmInternaute = "Les Qcm de la catégorie "+categorie+" sont en cours de création";
-		else messageListeQcmInternaute = "Liste Qcm de la catégorie "+categorie;
+		if (liste_Qcm.isEmpty()) messageListeQcmInternaute = "Les Qcm de la catï¿½gorie "+categorie+" sont en cours de crï¿½ation";
+		else messageListeQcmInternaute = "Liste Qcm de la catï¿½gorie "+categorie;
 		model.addAttribute("messageListeQcmInternaute", messageListeQcmInternaute);	
 		model.addAttribute("listeQcms", liste_Qcm);	
 		
@@ -564,7 +570,7 @@ public class QcmController {
 	public String repondreQcm(Model model , @RequestParam(value="idQcm") Integer idQcm,
 											@RequestParam(value="bnrs") Map<String, String> bnrs){
 		
-		Qcm qcm = services.getQcm(idQcm);  /// il faut inscrémenter qcm.internaute
+		Qcm qcm = services.getQcm(idQcm);  /// il faut inscrï¿½menter qcm.internaute
 
 		List<String> reponsesInternaute = new ArrayList<String>();
 		
@@ -573,7 +579,7 @@ public class QcmController {
 		}
 
 		services.repondreQcm(qcm, this.user.getId(), reponsesInternaute);
-		
+		this.user = services.getInternaute(this.user.getId());
 		model.addAttribute("user", this.user);		
 		model.addAttribute("bonjour", this.bonjour);
 		model.addAttribute("espace", this.espace);

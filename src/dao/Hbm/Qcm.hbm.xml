@@ -1,8 +1,11 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-	"http://www.hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
-
+    "file:///C:/dtd/hibernate-mapping-3.0.dtd">
+    <!-- 
+    "http://www.hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+     -->
 <hibernate-mapping>
 
 <class name="dao.Entites.Qcm" table="QCMS">
@@ -19,6 +22,8 @@
 	<property name="etat" column="ETAT"></property>
 	<property name="messageResponsable" column="MESSAGE_RESPONSABLE"></property>
 	<property name="internautes" column="INTERNAUTES"></property>
+	<property name="compteurBonnesReponses" column="CP_BR"></property>
+	<property name="compteurmauvaisesReponses" column="CP_MR"></property>
 	
 	<list name="questionnaires" table="QUESTIONNAIRES" >
 		<key column="QCM"></key>

@@ -185,15 +185,25 @@ public class QcmMetierImplementation implements QcmMetier {
 		qcm.setInternautes(internaute);
 		
 		Integer noteQcm = 0;
+		Integer bonnesRep = 0;
+		Integer mauvaisesRep = 0;
 		
+		// on parcourt chaque questionnaire
 		for(Questionnaire quest: qcm.getQuestionnaires()){
-			for(Choice c: quest.getChoices()) {
+			// on parcourt chaque choix du questionnaire
+			for(Choice c: quest.getChoices()) {				
 				if(reponsesInternaute.get(0).equals(c.getLabel())){
-					noteQcm+=c.getBr();
+					noteQcm+=c.getBr(); // c.getBr() vaut 0 ou 1 suivant si c'est une bonne ou mauvaise rep: on 
+										// lorsque ce choix est une BR on incrémente noteQcm de 1=c.getBr()
+					                    // si c'est une mauvaise reponse on incrémente noteQcm de 0
+					bonnesRep+=c.getBr(); // de meme pour le calcule du nombre des bonnes rep
+					mauvaisesRep+=1-c.getBr(); // pour les mauvaise rep on incremente de 1 si c.getBr() = 0!
 					break;
 				}
+				
 			}
 			reponsesInternaute.remove(0);
+			
 		}		
 		internauteDao.repondreQcm(qcm, id ,noteQcm);		
 	}

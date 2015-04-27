@@ -59,10 +59,31 @@
 			</div>
 			<div class="sous-box">	
 				<!-- Liste produits -->	
-				<sss:forEach items="${liste_internautes}" var = "o">	
-             		<span style="background-color: ${o.nom};">> ${o.identifiant } : ${o.points } points</span>
-	  				<br>
-				</sss:forEach>
+	  			<table border="1">
+	  				<caption> Classemant et Détails des points des jours</caption>
+					<tbody>
+						<tr>
+							<th> Nom </th>
+							<th> Identifiant </th>
+							<th> Science </th>
+							<th> Informatique </th>
+							<th> Musique </th>
+							<th> Culture générale </th>
+							<th> Total </th>
+						</tr>
+						<sss:forEach items="${liste_internautes}" var = "o">
+							<tr style="background-color:${o.prenom};">
+								<th> ${o.nom} </th>
+								<td> ${o.identifiant }</td>
+								<td> ${o.pointS} </td>
+								<td> ${o.pointI} </td>
+								<td> ${o.pointM} </td>
+								<td> ${o.pointC} </td>
+								<td> ${o.total} </td>
+							</tr>
+						</sss:forEach>
+					</tbody>
+				</table>
 			</div><!--fin sous-box -->
 		</div><!-- fin box -->
 		</div>    <!-- fin container -->

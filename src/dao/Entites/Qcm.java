@@ -19,7 +19,10 @@ public class Qcm {
 	private Integer idEmp;
 	private String messageResponsable;
 	
-	private Integer internautes;   // nombre d'internautes qui ont répondu à ce qcm
+	private Integer internautes;   // nombre d'internautes qui ont rï¿½pondu ï¿½ ce qcm
+	private Integer compteurBonnesReponses;
+	private Integer compteurmauvaisesReponses;
+	
 	private String color;
 	
 	public Qcm() {
@@ -103,7 +106,7 @@ public class Qcm {
 		this.color = color;
 	}
 
-	public void setQcm(Qcm qcm) {     // cette methode est appelée dans EmployeImpl.java lors de la modification d'un qcm.
+	public void setQcm(Qcm qcm) {     // cette methode est appelï¿½e dans EmployeImpl.java lors de la modification d'un qcm.
 		categorie = qcm.getCategorie();
 		libelle = qcm.getLibelle();
 		dateCreation = qcm.getDateCreation();
@@ -192,6 +195,22 @@ public class Qcm {
 			quest.addChoices(choix_, bnrs_);
 			ajouterQuestionnaire(quest);
 		}
+	}
+
+	public Integer getCompteurBonnesReponses() {
+		return compteurBonnesReponses;
+	}
+
+	public void setCompteurBonnesReponses(Integer compteurBonnesReponses) {
+		this.compteurBonnesReponses = compteurBonnesReponses;
+	}
+
+	public Integer getCompteurmauvaisesReponses() {
+		return compteurmauvaisesReponses;
+	}
+
+	public void setCompteurmauvaisesReponses(Integer compteurmauvaisesReponses) {
+		this.compteurmauvaisesReponses = compteurmauvaisesReponses;
 	}
 	
 }

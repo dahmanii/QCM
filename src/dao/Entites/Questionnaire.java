@@ -55,6 +55,7 @@ public class Questionnaire {
 		viderChoice();
 
 		Vector<Integer> listeBnrs = new Vector<Integer>();
+		for(Integer i:bnrs) System.out.println("bnrs dans questionnaire: "+i);
 		for(Integer I:bnrs) listeBnrs.add(I);  
 
 		int ascii = 65; // code de la lettre A

@@ -4,10 +4,10 @@ public class Responsable extends Utilisateur {
 	
 	public Responsable(){
 		super();
-		this.setRole("Responsable technique") ;
+		this.setRole("Responsable") ;
 	}
 	public Responsable(String nom, String prenom, String identifiant, String password) {
-		super(nom, prenom, identifiant, password, "Responsable technique");
+		super(nom, prenom, identifiant, password, "Responsable");
 	}
 	@Override
 	public String toString(){

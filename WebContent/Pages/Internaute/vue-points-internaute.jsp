@@ -57,9 +57,29 @@
 					<h1>Mes points</h1>	
 				</div>			    		
 			</div>
-			<div class="sous-box">	
-				<p>Total de mes points</p>
-				<p>${points }</p>
+			<div class="sous-box">					
+				<table border="1">
+					<caption> Détails de mes points </caption>
+					<tbody>
+						<tr>
+							<th> Catégorie </th>
+							<th> Science </th>
+							<th> Informatique </th>
+							<th> Musique </th>
+							<th> Culture générale </th>
+							<th> Total </th>
+						</tr>
+						<tr>
+							<th> Points </th>
+							<td> ${user.pointS} </td>
+							<td> ${user.pointI} </td>
+							<td> ${user.pointM} </td>
+							<td> ${user.pointC} </td>
+							<td> ${total} </td>
+							</tr>
+					</tbody>
+				</table>
+				
 			</div><!--fin sous-box -->
 		</div><!-- fin box -->
 		</div>    <!-- fin container -->

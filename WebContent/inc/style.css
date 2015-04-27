@@ -101,7 +101,7 @@ button{
 }
 .sous-box-index2{
 	height:200px;
-	background: url('http://dummyimage.com/380x200/1b2d52/ffffff&text=Message+Interfaces+Optimisé...') ;
+	background: url('http://dummyimage.com/380x200/1b2d52/ffffff&text=Message+Interfaces+Optimisï¿½...') ;
 }
 .sous-box-index3{
 	height:200px;
@@ -219,4 +219,11 @@ textarea {
 	margin-top: 9px;
     float: right;
     color:white;
+}
+table{
+	border-collapse: collapse;
+  border-spacing: 0;
+}
+td , th{
+	  padding: 10px 28px;
 }

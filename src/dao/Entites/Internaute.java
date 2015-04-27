@@ -6,6 +6,7 @@ public class Internaute extends Utilisateur {
 	private Integer pointI; // points catégorie informatique
 	private Integer pointM; // points catégorie musique
 	private Integer pointC; // points catégorie culture générale
+	private Integer total;
 	
 	public Internaute(){
 		super();
@@ -31,7 +32,9 @@ public class Internaute extends Utilisateur {
 	}
 	@Override
 	public String toString(){
-		return "Internaute Nom: " + getNom() + " - " + "Prenom : " + getPrenom() + " - " + "Login: " + getIdentifiant() + " - " + "pass: " + getPassword() ; 
+		String s = "Internaute Nom: " + getNom() + " - " + "Prenom : " + getPrenom() + " - " + "Login: " + getIdentifiant() + " - " + "pass: " + getPassword() ; 
+		s+="\npointS: " + this.pointS + ", pointI: " + this.pointI +", pointM: " + this.pointM +", pointC: " + this.pointC;
+		return s;
 	}
 	
 	
@@ -70,6 +73,10 @@ public class Internaute extends Utilisateur {
 		}
 	}
 	
+	public Integer total(){
+		return this.pointS + this.pointI + this.pointM + this.pointC;
+	}
+	
 	public void show(){
 		System.out.println(toString());
 	}
@@ -96,6 +103,12 @@ public class Internaute extends Utilisateur {
 	}
 	public void setPointC(Integer pointC) {
 		this.pointC = pointC;
+	}
+	public Integer getTotal() {
+		return total;
+	}
+	public void setTotal(Integer total) {
+		this.total = total;
 	}
 
 }

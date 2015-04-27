@@ -62,60 +62,23 @@
 				</div>
 				<div class="sous-box">	
 					<!-- Liste qcm -->	
-					<sss:forEach items="${listeQcms}" var = "o">	
-						<fieldset>
-					    <legend Style="margin:auto;">
-					    	<label for="idQcm" Style="float:none;">IdQcm ${ o.id }</label>
-					    </legend>	
-		                <br />
-		                <div class="infos-qcm" style="float:none;">
-			                <label for="idQcm">Catégorie </label>
-							<label for="idQcm">${ o.categorie } </label>
-			                <br />
-			                <label for="idQcm">Libellé </label>
-							<label for="idQcm">${ o.libelle } </label>
-			                <br />
-			                <label for="idQcm">Crée le:  </label>
-							<label for="idQcm" style=" width: 52%;">${ o.dateCreation } </label>		                
-			                <br />
-			                <span style="background-color:  ${o.color } ;">Etat: ${o.etat } </span>
-							<br>
-							 <label for="etat">Lus:  </label>
-							<label for="idQcm">${o.internautes } fois</label>
-							 <br>
-							<label for="etat">Message Responsable:  </label>
-							<label for="idQcm">${o.messageResponsable } </label>
-						</div>
-
-						<br>
-						<br>
-						<br />
-		                <br />
-		                <div class="line-separatrice"></div>
-		                <div class="line-separatrice"></div>
-		                <sss:forEach items="${o.questionnaires}" var = "oo">	                	
-							<div class="line-separatrice"></div>
-							<br />
-							<div style="margin-left: 50px;">
-			                	<label for="idQcm">Id Question : </label>
-			                	<label for="idQcm">${oo.id} </label>
-				                <br />
-				                <br />
-								<span>Question: ${oo.question} </span>
-				                <br />
-				                <br />
-				                <sss:forEach items="${oo.choices}" var = "ooo">
-					                <span>&nbsp; ${ooo.label}(${ooo.br})   ${ooo.choix}</span>
-									<br />
-									<br />
-								</sss:forEach>
-							</div>		                  	
-		                  	<br/>		
-                 	
-	                  	</sss:forEach>
-						</fieldset>
-					</sss:forEach>
-				</div>
+					<table border="1" style="margin:auto;">
+					<tbody>
+						<tr>
+							<th> Id </th>
+							<th> Catégorie </th>
+							<th> Etat </th>
+						</tr>
+						<sss:forEach items="${listeQcms}" var = "o">
+							<tr style="background-color:${o.color};">
+								<td> ${o.id} </td>
+								<td> ${o.categorie }</td>
+								<td> ${o.etat} </td>
+							</tr>
+						</sss:forEach>
+					</tbody>
+				</table>
+				</div> <!-- fin sous-box -->
 				
 			</div> <!-- fin box -->	
 		</div>    <!-- fin container -->
