@@ -1,128 +1,100 @@
-<%@ page pageEncoding="UTF-8" %>
-<%@ page contentType="text/html; charset=" %>
-<%@ taglib prefix="sss" uri = "http://java.sun.com/jsp/jstl/core"  %>
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<title>Espace employé</title>
-		<link type="text/css" rel="stylesheet" href="inc/style.css" />
-	</head>
-	<body>
-		<!---------------- Entête: espace .... ----------------------->
-		<!---------------- Message bonjour nom prenom .... ----------------------->
-		<div id="container">
-			<div id="infos-connexion" >
-				<div id="infos-user" >
-					<span >${espace}, ${bonjour}</span>
-				</div>
-				<div class="quitter">	
-					<!---------------- Se déconnecter ----------------------->
-					<form action="seDeconnecter.aspx" method="post">
-			        	<button type="submit" style="width: 100%;height: 100%;background-color: #3E3E3E;">Quitter</button>
-			        </form>		
-				</div>
-			</div>
-			<div id="entete">
-				<div id="logo">				
-				</div>
-				<div class="sous-menu" >	
-					<!---------------- Ajouter Qcms ----------------------->
-					<form action="vueEmployeAjouterQcm.aspx" method="post">
-			        	<button type="submit" style="width: 100%;height: 100%;background-color: #000 ;">Ajouter Qcm</button>
-			        </form>	
-				</div>
-				<div class="sous-menu" >	
-					<!---------------- Consulter Qcms ----------------------->
-					<form action="vueEmployeListeQcm.aspx" method="post">
-			        	<button type="submit" style="width: 100%;height: 100%;background-color: #515151 ;">Liste Qcm</button>
-			        </form>	
-				</div>
-				<div class="sous-menu" >	
-					<!---------------- Consulter Qcms Internautes ----------------------->
-					<form action="vueEmployeModifierQcms.aspx" method="post">
-			        	<button type="submit" style="width: 100%;height: 100%;background-color: #8b8b8b;">Modifier Qcms</button>
-			        </form>		
-				</div>
-				<div class="sous-menu" >	
-					<!---------------- Consulter Qcms Internautes ----------------------->
-					<form action="vueEmployeQcmInternaute.aspx" method="post">
-			        	<button type="submit" style="width: 100%;height: 100%;background-color: #5B5B5B;">Qcms Internautes</button>
-			        </form>		
-				</div>
-				
-			</div> <!-- fin entete -->
-			
-			
-			<!---------------- Ajout QCM ----------------------->			
-			<div class="box">
-				<div class="titre">	
-					<div class="titre-trapeze">	
-						<h1>Ajouter QCM</h1>	
-					</div>			    		
-				</div>
-				<div class="sous-box" >	
-					
-					<form action="remplirQcm.aspx" method="post" >				
-						<input type="hidden" name="etat"    value = "en cours" />
-						<input type="hidden" name="idEmp"    value = "${user.id}" />						
-						<div >
-							<p><span style="font-weight: bold;">Informations du QCM :</span> </p>
-							<p>Categorie :<span style="font-weight: italic;">${ qcm.categorie }</span></p>
-							<p>Libellé :<span style="font-weight: italic;">${ qcm.libelle }</span></p>
-							<br />
-							<br />
-						</div>
-						
-						<div class="line-separatrice"></div>
-						
-						<p style="width: 60%;">
-	            			<span style="font-style: italic;">Tapez la question ${compteurQuestionnaires} du QCM:</span>
-					      	<textarea class="textareaq" name="question" id="question" >${questionnaire.question}</textarea>
-				      	</p>
-						<div class="line-separatrice"></div>
-						<div class="choix">
-							<div class="col-gauche">
-								<p style="font-weight: bold;">Saisir 4 choix maximum:</p>
-								<p >
-									<span style="font-style: italic;">Choix A:</span>
-					       			<textarea class="textareac" name="choix" id="choix1"></textarea>
-				       			</p>
-								<p >
-									<span style="font-style: italic;">Choix B:</span>
-					       			<textarea class="textareac" name="choix" id="choix2" ></textarea>
-				       			</p>
-								
-								<p >
-									<span style="font-style: italic;">Choix C:</span>
-					       			<textarea class="textareac" name="choix" id="choix3" ></textarea>
-				       			</p>
-								
-								<p >
-									<span style="font-style: italic;">Choix D:</span>
-					       			<textarea class="textareac" name="choix" id="choix4" ></textarea>
-				       			</p>
-			       			</div>	
-			       			<div class="col-droite">
-								<p style="font-weight: bold;">Cochez les bonnes réponses</p>
-								<input type="checkbox" name="bnrs" id="cbG05" value = "0" class="css-checkbox" >
-								<input type="checkbox" name="bnrs" id="cbG05" value = "1" class="css-checkbox" >
-								<input type="checkbox" name="bnrs" id="cbG05" value = "2" class="css-checkbox" >
-								<input type="checkbox" name="bnrs" id="cbG05" value = "3" class="css-checkbox" >
-			       			</div>	
-		       			</div>
-		       						   
-						<br />
-						<br />
-						<input type="reset" class="btn-valider" name="raz" value="Remettre à zéro" style="border:0px; color:white;"/>					
-						<button type="submit" class="btn-valider" name="newQcm" value="questionnaire_suivant">Questionnaire suivant</button>	
-						<button type="submit" class="btn-valider" name="newQcm" value="valider_qcm">Valider Qcm</button>	
 
-					</form>
-				</div>
+<head>
+  <title>Espace employ�</title>
+  <meta name="description" content="website description" />
+  <meta name="keywords" content="website keywords, website keywords" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <!-- modernizr enables HTML5 elements and feature detects -->
+  <script type="text/javascript" src="js/modernizr-1.5.min.js"></script>
+</head>
+
+<body>
+  <div id="main">
+    <header>
+      <div id="logo">
+        <div id="logo_text">
+          <!-- class="logo_colour", allows you to change the colour of the text -->
+          <h1><a href="accueil.aspx"><span class="logo_colour">SONDIX</span></a></h1>
+          <h2>DEVISE de l'entreprise</h2>
+        </div>
+      </div>
+      <nav>
+        <ul class="sf-menu" id="nav">
+          <li class="selected"><a href="accueil.aspx">Accueil</a></li>
+          <li><a href="vueEmployeAjouterQcm.aspx">Ajouter Qcm</a></li>
+          <li><a href="vueEmployeListeQcm.aspx">Liste Qcm</a></li>
+          <li><a href="vueEmployeModifierQcms.aspx">Modifier Qcms</a></li> 
+          <li><a href="vueEmployeQcmInternaute.aspx">Qcms Internautes</a></li>
+          <li><a href="seDeconnecter.aspx">Quitter</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div id="site_content">
+ 
+      <div id="sidebar_container">
+        <div class="sidebar">
+          <h3>Latest News</h3>
+          <h4>New Website Launched</h4>
+          <h5>January 1st, 2012</h5>
+          <p>2012 sees the redesign of our website. Take a look around and let us know what you think.<br /><a href="#">Read more</a></p>
+        </div>
+        <div class="sidebar">
+          <h3>Useful Links</h3>
+          <ul>
+            <li><a href="#">First Link</a></li>
+            <li><a href="#">Another Link</a></li>
+            <li><a href="#">And Another</a></li>
+            <li><a href="#">One More</a></li>
+            <li><a href="#">Last One</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="content">
+      	 <h3>Ajouter un nouveau QCM</h3>
+    	<form action="remplirQcm.aspx" method="post" >				
+			<input type="hidden" name="etat"    value = "en cours" />
+			<input type="hidden" name="idEmp"    value = "${user.id}" />						
+			<div >
+				<h3>Informations du QCM </h3>
+				<p><span>Categorie</span> <label>${ qcm.categorie }</label></p>
+				<p><span>Libell�</span> <label>${ qcm.libelle }</label></p>
+
 			</div>
 			
+          <div class="form_settings">        
+    
+			<p><span>Tapez la question ${compteurQuestionnaires} du QCM</span><textarea rows="8" cols="50" name="question"></textarea></p>
+			<p style="font-weight: bold;">Saisir 4 choix maximum:</p>			
 			
-		</div> <!-- fin container -->
-	</body>
+			<p><span>Choix A <input class="checkbox" type="checkbox" name="bnrs" value = "0" /></span><textarea rows="6" cols="50" name="choix"></textarea> </p>
+			<p><span>Choix B <input class="checkbox" type="checkbox" name="bnrs" value = "1" /></span><textarea rows="6" cols="50" name="choix"></textarea> </p>
+			<p><span>Choix C <input class="checkbox" type="checkbox" name="bnrs" value = "2" /></span><textarea rows="6" cols="50" name="choix"></textarea> </p>
+			<p><span>Choix D <input class="checkbox" type="checkbox" name="bnrs" value = "3" /></span><textarea rows="6" cols="50" name="choix"></textarea> </p>
+		
+   
+ 			<button type="submit" class="submit" name="newQcm" value="questionnaire_suivant">Questionnaire suivant</button>	
+			<button type="submit" class="submit"  name="newQcm" value="valider_qcm">Valider Qcm</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <footer>
+      <p>Copyright &copy; SONDIX | <a href="http://localhost:8080/QCM/">Plateforme QCM en ligne ...</a></p>
+    </footer>
+  </div>
+  <p>&nbsp;</p>
+  <!-- javascript at the bottom for fast page loading -->
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/jquery.easing-sooper.js"></script>
+  <script type="text/javascript" src="js/jquery.sooperfish.js"></script>
+  <script type="text/javascript" src="js/image_fade.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('ul.sf-menu').sooperfish();
+    });
+  </script>
+</body>
 </html>

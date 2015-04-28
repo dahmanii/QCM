@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<title>Espace Internaute</title>
+		<title>Espace employé</title>
 		<link type="text/css" rel="stylesheet" href="inc/style.css" />
 	</head>
 	<body>
@@ -51,53 +51,17 @@
 			        </form>		
 				</div>				
 			</div> <!-- fin entete -->
-					<!----------------  -------------------->
-		<div class="box" style = "display:bloc;">
+				<div class="box" style = "display:bloc;">
 			<div class="titre">	
 				<div class="titre-trapeze">	
-					<h1>Liste QCM ${ o.categorie }</h1>	
+					<h1>Liste classement internautes</h1>	
 				</div>			    		
 			</div>
 			<div class="sous-box">	
 				<!-- Liste produits -->	
-				<p>${messageListeQcmInternaute}</p>
-				<form action="listeQcmByCategorie.aspx" method="post">
-					<label for="categorie">Choisir une autre categorie</label>
-					<select name="categorie" >
-						<option value="Science">Science</option>
-			            <option value="Informatique">Informatique</option>
-			            <option value="Musique">Musique</option>
-			            <option value="Culture générale">Culture générale</option>
-					</select>           		
-					<button type="submit" class="btn-valider" name="afficher" >Afficher</button> 
-	           	</form>
-				<sss:forEach items="${listeQcms}" var = "o">	
-					<br />
-					<fieldset>
-				    <legend Style="margin:auto;">
-				    	<label for="idQcm" Style="float:none;">Libellé : ${ o.libelle }</label>
-				    </legend>	
-	                <br />               
-	                <sss:forEach items="${o.questionnaires}" var = "oo">
-	                	<div class="line-separatrice"></div>
-						<br />
-						<div class="infos-questionnaire" style="float:none;">
-							<span>${oo.question} </span>
-			                <br />
-			                <sss:forEach items="${oo.choices}" var = "ooo">
-			                	<div class="choix">
-				                	<span>${ooo.label}) ${ooo.choix}</span>
-				                </div>
-								<br />
-							</sss:forEach>  
-						</div>		                  	
-		                <br/>	             	
-                  	</sss:forEach>	 
-                	<form action="vueRepondreQcm.aspx" method="post">   
-                  		<input type="hidden" name="idQcm"    value = "${o.id}" />       		
-						<button type="submit" class="btn-valider" name="choisir" Style="margin-left:40px;">Choisir</button> 
-           			</form>	                				
-					</fieldset>
+				<sss:forEach items="${liste_internautes}" var = "o">	
+             		<span style="background-color: ${o.nom};">> ${o.identifiant } : ${o.points } points</span>
+	  				<br>
 				</sss:forEach>
 			</div><!--fin sous-box -->
 		</div><!-- fin box -->

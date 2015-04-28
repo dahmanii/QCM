@@ -23,17 +23,39 @@
       </div>
       <nav>
         <ul class="sf-menu" id="nav">
-          <li class="selected"><a href="index.aspx">Accueil</a></li>
-          <li><a href="vueSeConnecter.aspx">Se connecter</a></li>
-          <li><a href="vueNouveauUtilisateur.aspx">S'enregistrer</a></li>
-          <li><a href="about.aspx">About</a></li>
- 
+          <li class="selected"><a href="index.html">Accueil</a></li>
+          <li><a href="examples.html">Se connecter</a></li>
+          <li><a href="page.html">S'enregistrer</a></li>
+          <li><a href="another_page.html">About</a></li>
+          <li><a href="#">Example Drop Down</a>
+            <ul>
+              <li><a href="#">Drop Down One</a></li>
+              <li><a href="#">Drop Down Two</a>
+                <ul>
+                  <li><a href="#">Sub Drop Down One</a></li>
+                  <li><a href="#">Sub Drop Down Two</a></li>
+                  <li><a href="#">Sub Drop Down Three</a></li>
+                  <li><a href="#">Sub Drop Down Four</a></li>
+                  <li><a href="#">Sub Drop Down Five</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Drop Down Three</a></li>
+              <li><a href="#">Drop Down Four</a></li>
+              <li><a href="#">Drop Down Five</a></li>
+            </ul>
+          </li>
           <li><a href="contact.php">Contact Us</a></li>
         </ul>
       </nav>
     </header>
     <div id="site_content">
-     
+      <div class="gallery">
+        <ul class="images">
+          <li class="show"><img width="950" height="300" src="images/1.jpg" alt="photo_one" /></li>
+          <li><img width="950" height="300" src="images/2.jpg" alt="seascape" /></li>
+          <li><img width="950" height="300" src="images/3.jpg" alt="seascape" /></li>
+        </ul>
+      </div>
       <div id="sidebar_container">
         <div class="sidebar">
           <h3>Latest News</h3>
@@ -53,14 +75,10 @@
         </div>
       </div>
       <div class="content">
-        <h3>Saisissez votre identifiant et votre mot de passe SONDIX pour vous connecter à votre espace.</h3>
-        <form action="authentification.aspx" method="post">
-          <div class="form_settings">
-            <p><span>Login</span><input type="text" name="identifiant" value="" /></p>
-            <p><span>Mot de pass</span><input type="password" name="password" value="" /></p>
-            <p style="padding-top: 15px"><span>&nbsp;</span><input class="submit" type="submit" name="se connecter" value="se connecter" /></p>
-          </div>
-        </form>
+        <h1>A remplir ?? Binevenue dans notre site SONDIX</h1>
+        <p>TSpécialisé dans la création des qcm depuis 1940...., fixed width website template is released under a <a href="http://creativecommons.org/licenses/by/3.0">Creative Commons Attribution 3.0 Licence</a>. This means you are free to download and use it for personal and commercial projects. However, you <strong>must leave the 'design from css3templates.co.uk' link in the footer of the template</strong>.</p>
+        <p>This template is written entirely in <strong>HTML5</strong> and <strong>CSS3</strong>. The photos shown in this template were taken by me. You can view more free CSS3 web templates <a href="http://www.css3templates.co.uk">here</a>.</p>
+        <p>This template is a fully documented 5 page website, with an <a href="examples.html">examples</a> page that gives examples of all the styles available with this design. There is also a working PHP contact form on the contact page. All of the photos were taken by me - use as you wish.</p>
       </div>
     </div>
     <footer>

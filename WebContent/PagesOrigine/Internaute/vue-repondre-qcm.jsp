@@ -55,50 +55,37 @@
 		<div class="box" style = "display:bloc;">
 			<div class="titre">	
 				<div class="titre-trapeze">	
-					<h1>Liste QCM ${ o.categorie }</h1>	
+					<h1>Répondre à ce Qcm</h1>	
 				</div>			    		
 			</div>
 			<div class="sous-box">	
-				<!-- Liste produits -->	
-				<p>${messageListeQcmInternaute}</p>
-				<form action="listeQcmByCategorie.aspx" method="post">
-					<label for="categorie">Choisir une autre categorie</label>
-					<select name="categorie" >
-						<option value="Science">Science</option>
-			            <option value="Informatique">Informatique</option>
-			            <option value="Musique">Musique</option>
-			            <option value="Culture générale">Culture générale</option>
-					</select>           		
-					<button type="submit" class="btn-valider" name="afficher" >Afficher</button> 
-	           	</form>
-				<sss:forEach items="${listeQcms}" var = "o">	
-					<br />
-					<fieldset>
-				    <legend Style="margin:auto;">
-				    	<label for="idQcm" Style="float:none;">Libellé : ${ o.libelle }</label>
-				    </legend>	
-	                <br />               
-	                <sss:forEach items="${o.questionnaires}" var = "oo">
+				<fieldset>
+			    <legend Style="margin:auto;">
+			    	<label for="idQcm" Style="float:none;">Libellé : ${ qcm.libelle }</label>
+			    </legend>	
+                <br />     
+                <form action="repondreQcm.aspx" method="post">            
+	                <sss:forEach items="${qcm.questionnaires}" var = "questionnaire">
 	                	<div class="line-separatrice"></div>
 						<br />
 						<div class="infos-questionnaire" style="float:none;">
-							<span>${oo.question} </span>
+							<span>${questionnaire.question} </span>
 			                <br />
-			                <sss:forEach items="${oo.choices}" var = "ooo">
+			                <br />
+			                <sss:forEach items="${questionnaire.choices}" var = "choice">
 			                	<div class="choix">
-				                	<span>${ooo.label}) ${ooo.choix}</span>
+				                	<input type="radio" name="${questionnaire.id}" value="${choice.label}" style="float: left;margin-right: 11px;">
+					                <span>${choice.label}) ${choice.choix} </span>
 				                </div>
 								<br />
-							</sss:forEach>  
+							</sss:forEach>  	           
 						</div>		                  	
 		                <br/>	             	
-                  	</sss:forEach>	 
-                	<form action="vueRepondreQcm.aspx" method="post">   
-                  		<input type="hidden" name="idQcm"    value = "${o.id}" />       		
-						<button type="submit" class="btn-valider" name="choisir" Style="margin-left:40px;">Choisir</button> 
-           			</form>	                				
-					</fieldset>
-				</sss:forEach>
+	                </sss:forEach>
+	                <input type="hidden" name="idQcm"    value = "${qcm.id}" />       		
+					<button type="submit" class="btn-valider" name="choisir" style="margin-left: 40px;">Répondre</button>
+                </form>		              			
+				</fieldset>
 			</div><!--fin sous-box -->
 		</div><!-- fin box -->
 		</div>    <!-- fin container -->

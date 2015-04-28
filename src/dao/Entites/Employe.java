@@ -4,19 +4,19 @@ public class Employe extends Utilisateur {
 	
 	public Employe(){
 		super();
-		this.setRole("Employé d'entreprise") ;
+		this.setRole("Emploe") ;
 	}
 	public Employe(String nom, String prenom, String identifiant, String password) {
-		super(nom, prenom, identifiant, password, "Employé d'entreprise");
+		super(nom, prenom, identifiant, password, "Employe");
 	}
 	
 	@Override
 	public String toString(){
-		return "Employé d'entreprise Nom: " + getNom() + " - " + "Prenom : " + getPrenom() + " - " + "Login: " + getIdentifiant() + " - " + "pass: " + getPassword() ; 
+		return "Employe d'entreprise Nom: " + getNom() + " - " + "Prenom : " + getPrenom() + " - " + "Login: " + getIdentifiant() + " - " + "pass: " + getPassword() ; 
 	}
 	
 	public void show(){
-		System.out.print("id employé" + this.getId()+" ");
+		System.out.print("id employe" + this.getId()+" ");
 		System.out.println(toString());
 	}
 }
